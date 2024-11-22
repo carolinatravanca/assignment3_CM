@@ -1,0 +1,41 @@
+#filter_div{
+   font-family: anonymous;
+    display: flex;
+    align-items: center;
+    justify-content: right;
+}
+
+
+
+section > h3 {
+    color: rgba(130, 130, 130, 1);
+    font-family: anonymous;
+}
+
+section > h1{
+    color:black;
+    font-family: anonymous;
+}
+
+.notes_gallery{
+display: flex;
+flex-wrap: wrap;
+justify-content: space-around;
+align-content: space-around;
+}
+
+.notes_block{
+    background-color: rgba(231, 231, 231, 1);
+    border-radius: 10px;
+}
+
+.notes_block > h1{
+ 
+   color: rgba(231, 231, 231, 1);
+   font-family: anonymous;
+}
+
+.notes_block > p{
+    color: black;
+    font-family: anonymous;
+ }

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>NOTES!</title>
+  <link href="addnote.css" rel="stylesheet" type="text/css" />
+  <link href="global.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+
+<header>
+  <nav>
+    <a href="index.html" id="logo_img">
+      <h1 id="title">NOTES!</h1>
+    </a>
+
+    <div id="search_bar" onclick="expandSearchBar()">
+        <img  src="lupa.png" id="magnifying_glass_img" height="50%">
+        <p  contenteditable="true">Search</p>
+    </div>
+
+    <ul>
+      <li><a href="addnote.html">Add Note</a>
+    <img src="nota.png" id="addnote_img"></li>
+      <li><a href="profile.html">Profile</a>
+        <img src="person.png" id="profile_img"></li>
+    </ul>
+  </nav>
+</header>
+
+<main>
+  <section>
+<div class="block_createnote">
+    <h1 contenteditable="true">Note title</h1>
+</div>
+
+<div class="block_createnote">
+    <p contenteditable="true"> Note content</p>
+</div>
+
+  </section>
+
+<br>
+
+  <section>
+
+    
+<button class="button_createnote" type="button" > Exit </button>
+<button class="button_createnote" type="button" > Save note </button>
+
+  </section>
+
+</main>
+
+<footer>
+
+</footer>
+
+<script>
+
+var buttons = document.getElementsByClassName('button_createnote');
+
+for(var i = 0; i < buttons.length; i++)
+{
+  var colors = ['#FC7A1E', '#F24C00', '#485696'];
+var random_color = colors[Math.floor(Math.random() * colors.length)];
+    buttons[i].style.backgroundColor = random_color;
+}
+
+function expandSearchBar() {
+  const searchBar = document.getElementById("search_bar");
+  searchBar.style.width = "60%";
+
+
+  document.addEventListener("click", function handleClickOutside(event) {
+    if (!searchBar.contains(event.target)) {
+      searchBar.style.width = "30%"; 
+      document.removeEventListener("click", handleClickOutside); 
+    }
+  });
+}
+
+</script>
+
+</body>
+</html>
