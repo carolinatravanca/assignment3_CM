@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width">
@@ -7,151 +8,154 @@
   <link href="index.css" rel="stylesheet" type="text/css" />
   <link href="global.css" rel="stylesheet" type="text/css" />
 </head>
+
 <body>
 
-<header>
-  <nav>
-    <a href="index.html" id="logo_img">
-      <h1 id="title">NOTES!</h1>
-    </a>
+  <header>
+    <nav>
+      <a href="index.html" id="logo_img">
+        <h1 id="title">NOTES!</h1>
+      </a>
 
-    <div id="search_bar" onclick="expandSearchBar()">
-        <img  src="lupa.png" id="magnifying_glass_img" height="50%">
-        <p  contenteditable="true">Search</p>
-    </div>
+      <div id="search_bar" onclick="expandSearchBar()">
+        <img src="lupa.png" id="magnifying_glass_img" height="25%">
+        <p contenteditable="true" >Search</p>
+      </div>
 
-    <ul>
-      <li><a href="addnote.html">Add Note</a>
-    <img src="nota.png" id="addnote_img"></li>
-      <li><a href="login.html">Profile</a>
-        <img src="person.png" id="profile_img"></li>
-    </ul>
-  </nav>
-</header>
+      <span class = header_links>
+        <div class = button_header><a href="addnote.html">Add Note</a>
+          <img src="nota.png" id="addnote_img">
+        </div>
+        <div class="button_header"><a href="login.html">Profile</a>
+          <img src="person.png" id="profile_img">
+        </div>
+      </span>
+    </nav>
+  </header>
 
-<main>
-  <section>
+  <main>
+    <section>
 
-    <div id="filter_div">
-    <h3>Sort by:</h3>
+      <div id="filter_div">
+        <h3>Sort by:</h3>
 
-<select name="filter" id="filter">
-  <option value="most seen">Most seen</option>
-  <option value="most words">Most words</option>
-  <option value="last edited">Last edited</option>
-  <option value="last open">Last open</option>
-</select>
-</div>
+        <select name="filter" id="filter">
+          <option value="most seen">Most seen</option>
+          <option value="most words">Most words</option>
+          <option value="last edited">Last edited</option>
+          <option value="last open">Last open</option>
+        </select>
+      </div>
 
-  </section>
+    </section>
 
-  <section>
-  <h1>All Notes:</h1>
-
-
-  <span class="notes_gallery">
-
-<div class="notes_block">
-    <h1 class="title_note">Title</h1>
-<p>Note Content</p>
-</div>
-
-<div class="notes_block">
-    <h1 class="title_note">Title</h1>
-<p>Note Content</p>
-</div>
-
-<div class="notes_block">
-    <h1 class="title_note">Title</h1>
-<p>Note Content</p>
-</div>
-
-<div class="notes_block">
-    <h1 class="title_note">Title</h1>
-<p>Note Content</p>
-</div>
-
-<div class="notes_block">
-    <h1 class="title_note">Title</h1>
-<p>Note Content</p>
-</div>
-
-<div class="notes_block">
-    <h1 class="title_note">Title</h1>
-<p>Note Content</p>
-</div>
-
-<div class="notes_block">
-    <h1 class="title_note">Title</h1>
-<p>Note Content</p>
-</div>
-
-<div class="notes_block">
-    <h1 class="title_note">Title</h1>
-<p>Note Content</p>
-</div>
-
-</span>
-
-  <section>
-   <h1>Categories:</h1>
-
-   <span class="notes_gallery">
-
-   <div class="notes_block">
-    <h1 class="title_note">Title</h1>
-<p>Note Content</p>
-</div>
-
-<div class="notes_block">
-    <h1 class="title_note">Title</h1>
-<p>Note Content</p>
-</div>
-
-<div class="notes_block">
-    <h1 class="title_note">Title</h1>
-<p>Note Content</p>
-</div>
-
-<div class="notes_block">
-    <h1 class="title_note">Title</h1>
-<p>Note Content</p>
-</div>
-
-   </span>
-  </section>
-
-</main>
-
-<footer>
-
-</footer>
-
-<script>
-
-var title_notes = document.getElementsByClassName('title_note');
-
-for(var i = 0; i < title_notes.length; i++)
-{
-  var colors = ['#FC7A1E', '#F24C00', '#485696'];
-var random_color = colors[Math.floor(Math.random() * colors.length)];
-    title_notes[i].style.backgroundColor = random_color;
-}
-
-function expandSearchBar() {
-  const searchBar = document.getElementById("search_bar");
-  searchBar.style.width = "60%";
+    <section>
+      <h1>All Notes:</h1>
 
 
-  document.addEventListener("click", function handleClickOutside(event) {
-    if (!searchBar.contains(event.target)) {
-      searchBar.style.width = "30%"; 
-      document.removeEventListener("click", handleClickOutside);
+      <span class="notes_gallery">
+
+        <div class="notes_block">
+          <h1 class="title_note">Title</h1>
+          <p>Note Content</p>
+        </div>
+
+        <div class="notes_block">
+          <h1 class="title_note">Title</h1>
+          <p>Note Content</p>
+        </div>
+
+        <div class="notes_block">
+          <h1 class="title_note">Title</h1>
+          <p>Note Content</p>
+        </div>
+
+        <div class="notes_block">
+          <h1 class="title_note">Title</h1>
+          <p>Note Content</p>
+        </div>
+
+        <div class="notes_block">
+          <h1 class="title_note">Title</h1>
+          <p>Note Content</p>
+        </div>
+
+        <div class="notes_block">
+          <h1 class="title_note">Title</h1>
+          <p>Note Content</p>
+        </div>
+
+        <div class="notes_block">
+          <h1 class="title_note">Title</h1>
+          <p>Note Content</p>
+        </div>
+
+        <div class="notes_block">
+          <h1 class="title_note">Title</h1>
+          <p>Note Content</p>
+        </div>
+
+      </span>
+
+      <section>
+        <h1>Categories:</h1>
+
+        <span class="notes_gallery">
+
+          <div class="notes_block">
+            <h1 class="title_note">Title</h1>
+            <p>Note Content</p>
+          </div>
+
+          <div class="notes_block">
+            <h1 class="title_note">Title</h1>
+            <p>Note Content</p>
+          </div>
+
+          <div class="notes_block">
+            <h1 class="title_note">Title</h1>
+            <p>Note Content</p>
+          </div>
+
+          <div class="notes_block">
+            <h1 class="title_note">Title</h1>
+            <p>Note Content</p>
+          </div>
+
+        </span>
+      </section>
+
+  </main>
+
+  <footer>
+
+  </footer>
+
+  <script>
+
+    var title_notes = document.getElementsByClassName('title_note');
+
+    for (var i = 0; i < title_notes.length; i++) {
+      var colors = ['#FC7A1E', '#F24C00', '#485696'];
+      var random_color = colors[Math.floor(Math.random() * colors.length)];
+      title_notes[i].style.backgroundColor = random_color;
     }
-  });
-}
 
-</script>
+    function expandSearchBar() {
+      const searchBar = document.getElementById("search_bar");
+      searchBar.style.width = "60%";
+
+
+      document.addEventListener("click", function handleClickOutside(event) {
+        if (!searchBar.contains(event.target)) {
+          searchBar.style.width = "30%";
+          document.removeEventListener("click", handleClickOutside);
+        }
+      });
+    }
+
+  </script>
 
 </body>
+
 </html>
