@@ -33,7 +33,9 @@ nav {
 
 #title {
   font-family: taurian;
-  color: rgba(255, 217, 125, 1);
+  color: rgba(255 201 71);
+  font-size: 24pt;
+  letter-spacing: 3px;
 }
 
 #search_bar {
