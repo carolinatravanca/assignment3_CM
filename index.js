@@ -12,9 +12,8 @@ const getMimeType = (ext) => {
     return mimeTypes[ext] || 'application/octet-stream';
 }; 
 
-
-const server = http.createServer((req, res) => {
-    const filePath = req.url === '/' ? '/index.html' : req.url;
+const server = http.createServer((message, response) => {
+    const filePath = message.url === '/' ? '/index.html' : message.url;
     const fullPath = path.join(__dirname,filePath);
     const extname = String(path.extname(filePath)).toLowerCase();
     const contentType = getMimeType(extname);
@@ -23,15 +22,15 @@ const server = http.createServer((req, res) => {
         if (err) {
             console.error(`Error reading file: ${err.message}`);
             if (err.code === 'ENOENT') {
-                res.writeHead(404, { 'Content-Type': 'text/html' });
-                res.end('<h1>404 Not Found</h1>', 'utf-8');
+                response.writeHead(404, { 'Content-Type': 'text/html' });
+                response.end('<h1>404 Not Found</h1>', 'utf-8');
             } else {
-                res.writeHead(500, { 'Content-Type': 'text/html' });
-                res.end('<h1>500 Server Error</h1>', 'utf-8');
+                response.writeHead(500, { 'Content-Type': 'text/html' });
+                response.end('<h1>500 Server Error</h1>', 'utf-8');
             }
         } else {
-            res.writeHead(200, { 'Content-Type': contentType });
-            res.end(data, 'utf-8');
+            response.writeHead(200, { 'Content-Type': contentType });
+            response.end(data, 'utf-8');
         }
     });
 });
