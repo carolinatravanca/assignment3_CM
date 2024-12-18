@@ -167,7 +167,7 @@
     async function submit_clicked() {
       const username = document.querySelector("#login_Username").value;
       const password = document.querySelector("#login_Password").value;
-    const header_id_var = document.getElementById("header_id");
+      const header_id_var = document.getElementById("header_id")
 
       const response = await fetch("/api/login", {
         method: "POST",
@@ -186,6 +186,30 @@
       } else {
         alert("Login failed: " + result.message);
       }
+    }
+
+    // Toggles the visibility of the create note section
+    function hide_content() {
+      const section = document.getElementById("createnote_section");
+      section.style.display = section.style.display === "none" ? "block" : "none";
+    }
+
+    // Toggles the visibility of the profile section
+    function hide_profile() {
+      const section = document.getElementById("profile_section");
+      section.style.display = section.style.display === "none" ? "block" : "none";
+    }
+
+    // Expands or shrinks the search bar
+    function expandSearchBar() {
+      const searchBar = document.getElementById("search_bar");
+      searchBar.style.width = searchBar.style.width === "30%" ? "50%" : "30%";
+    }
+
+    // Toggles the visibility of the main page
+    function hide_mainpage() {
+      const section = document.getElementById("mainpage_section");
+      section.style.display = section.style.display === "none" ? "block" : "none";
     }
 
 
