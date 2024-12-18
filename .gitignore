@@ -1,6 +1,13 @@
 # Ignore MongoDB lock files
 data/*.lock
 data/WiredTiger*
+data/journal/
+data/diagnostic.data/
+data/index-*.wt
+data/collection-*.wt
+data/_mdb_catalog.wt
+data/sizeStorer.wt
+data/storage.bson
 
 # Node.js dependencies
 node_modules/

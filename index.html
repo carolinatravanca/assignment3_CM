@@ -8,7 +8,7 @@
   <link href="./static/global.css" rel="stylesheet" type="text/css" />
 </head>
 
-<body>  
+<body>
   <header id="header_id">
     <nav>
       <a id="logo_img">
@@ -41,10 +41,10 @@
         <h1 id="title">NOTES!</h1>
         <p>Welcome back!</p>
         <form>
-          <label for="Username">Username:</label><br>
-          <input type="text" id="Username" name="Username" value="guest"><br>
-          <label for="Password">Password:</label><br>
-          <input type="password" id="Password" name="Password" value="COLPASWOR"><br><br>
+          <label for="login_Username">Username:</label><br>
+          <input type="text" id="login_Username" name="Username" value="guest">
+          <label for="login_Password">Password:</label><br>
+          <input type="password" id="login_Password" name="Password" value="COLPASWOR"><br><br>
           <button class="button_createnote" onclick="submit_clicked()" type="button">LOGIN</button>
         </form>
         <h4><a onclick="password_clicked()">Forgot password?</a></h4>
@@ -58,10 +58,10 @@
         <h1 id="title">NOTES!</h1>
         <p>Get yourself a new password!</p>
         <form>
-          <label for="Username">Username:</label><br>
-          <input type="text" id="Username" name="Username" value="guest"><br>
-          <label for="Password">(New) Password:</label><br>
-          <input type="password" id="Password" name="Password" value="COLPASWOR"><br><br>
+          <label for="forgot_Username">Username:</label><br>
+          <input type="text" id="forgot_Username" name="Username"><br>
+          <label for="forgot_Password">(New) Password:</label><br>
+          <input type="password" id="forgot_Password" name="Password"><br><br>
           <button class="button_createnote" onclick="login_clicked()" type="button">LOGIN</button>
         </form>
         <h4><a onclick="login_clicked()">Actually, I know my password</a></h4>
@@ -75,10 +75,10 @@
         <h1 id="title">NOTES!</h1>
         <p>Hello :)</p>
         <form>
-          <label for="Username">What's your name?</label><br>
-          <input type="text" id="Username" name="Username" value="guest"><br>
-          <label for="Password">Password?</label><br>
-          <input type="password" id="Password" name="Password" value="COLPASWOR"><br><br>
+          <label for="create_Username">What's your name?</label><br>
+          <input type="text" id="create_Username" name="Username" value="guest"><br>
+          <label for="create_Password">Password?</label><br>
+          <input type="password" id="create_Password" name="Password" value="COLPASWOR"><br><br>
           <button class="button_createnote" onclick="login_clicked()" type="button">LOGIN</button>
         </form>
         <h4><a onclick="password_clicked()">Forgot password?</a></h4>
@@ -163,6 +163,34 @@
     function login_clicked() {
       showSection(section_login);
     }
+
+    async function submit_clicked() {
+      const username = document.querySelector("#login_Username").value;
+      const password = document.querySelector("#login_Password").value;
+    const header_id_var = document.getElementById("header_id");
+
+      const response = await fetch("/api/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username, password }),
+      });
+
+      const result = await response.json();
+
+      if (result.success) {
+        section_login.style.display = "none";
+        section_mainpage.style.display = "block";
+        document.body.style.background = "rgba(242, 242, 242, 1)";
+        header_id_var.style.display = "block";
+        console.log("Logged in user:", result.user);
+      } else {
+        alert("Login failed: " + result.message);
+      }
+    }
+
+
+
+
   </script>
 </body>
 
