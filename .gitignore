@@ -8,6 +8,8 @@ data/collection-*.wt
 data/_mdb_catalog.wt
 data/sizeStorer.wt
 data/storage.bson
+data/*.wt
+data/*.turtle
 
 # Node.js dependencies
 node_modules/
