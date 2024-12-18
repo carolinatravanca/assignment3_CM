@@ -105,9 +105,15 @@ a {
   display: none;
 }
 
-#login_section{
-  display: block;
+#login_section {
+  display: block; 
 }
+
+#password_section,
+#create_section {
+  display: none;
+}
+
 
 /*homepage*/
 
@@ -219,7 +225,7 @@ form{
   display: flex;
   align-items: center;
   justify-content: center;
-margin-top: 20%;
+  margin-top: 6rem;
   flex-wrap: nowrap;
   flex-direction: column;
 }

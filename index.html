@@ -6,11 +6,9 @@
   <meta name="viewport" content="width=device-width">
   <title>NOTES!</title>
   <link href="./static/global.css" rel="stylesheet" type="text/css" />
-
 </head>
 
 <body>  
-
   <header id="header_id">
     <nav>
       <a id="logo_img">
@@ -22,363 +20,150 @@
         <input type="search" contenteditable="true" placeholder="Search"></input>
       </div>
 
-      <span class = header_links>
-        <div class = button_header> <a onclick="hide_content()" data-link >Add Note</a>
+      <span class="header_links">
+        <div class="button_header">
+          <a onclick="hide_content()" data-link>Add Note</a>
           <img src="./static/images/nota.png" id="addnote_img">
         </div>
-        <div class="button_header"><a onclick="hide_profile()" data-link >Profile</a>
+        <div class="button_header">
+          <a onclick="hide_profile()" data-link>Profile</a>
           <img src="./static/images/person.png" id="profile_img">
         </div>
       </span>
     </nav>
   </header>
 
-  <main >
+  <main>
 
-<!--LOGIN-->
-
-<div id="login_section">
-
-<div id="login_div">
-
-  <h1 id="title">NOTES!</h1>
-  <p>Welcome back!</p>
-  
-  <form action="login.php">
-    <label for="Username">Username:</label><br>
-    <input type="text" id="Username" name="Username" value="guest"><br>
-    <label for="Password">Password:</label><br>
-    <input type="password" id="Password" name="Password" value="COLPASWOR"><br><br>
-    <button class="button_createnote" onclick="submit_clicked()" type="button" > LOGIN </button>
-  </form> 
-  
-  <h4><a onclick="password_clicked()" > Forgot password? </a></h4>
-  <h4><a onclick="create_clicked()" > I don't have an account (yet) :/ </a></h4>
-  </div>
-</div>
-   
-<!--FORGOT PASSWORD-->
-
-<div id="password_section">
-
-<div id="login_div">
-
-  <h1 id="title">NOTES!</h1>
-  <p>Get yourself a new password!</p>
-  
-  <form action="login.php">
-    <label for="Username">Username:</label><br>
-    <input type="text" id="Username" name="Username" value="guest"><br>
-    <label for="Password">(New) Password:</label><br>
-    <input type="password" id="Password" name="Password" value="COLPASWOR"><br><br>
-    <button class="button_createnote" onclick="login_clicked()" type="button" > LOGIN </button>
-  </form> 
-  
-  <h4><a onclick="login_clicked()"> Actually, I know my password </a></h4>
-  <h4><a onclick="create_clicked()"> I don't have an account (yet) :/ </a></h4>
-  </div>
-</div>
-
-<!--CREATEACCOUNT-->
-
-<div id="create_section">
-<div id="login_div">
-
-  <h1 id="title">NOTES!</h1>
-  <img src="person.png">
-  <p>Hello :) </p>
-  
-  <form action="login.php">
-    <label for="Username">What's your name?</label><br>
-    <input type="text" id="Username" name="Username" value="guest"><br>
-    <label for="Password">Password?</label><br>
-    <input type="password" id="Password" name="Password" value="COLPASWOR"><br><br>
-    <button class="button_createnote" onclick="login_clicked()" type="button" > LOGIN </button>
-  </form> 
-  
-  <h4><a onclick="password_clicked()" > Forgot password? </a></h4>
-  <h4><a onclick="login_clicked()"> WAIT! I have an account (ups :P) </a></h4>
-  </div>
-</div>
-
-<!--MAINPAGE-->
-    
-    <div id="mainpage_section">
-    <section>
-
-      <div id="filter_div">
-        <h3>Sort by:</h3>
-  
-        <select name="filter" id="filter">
-          <option value="most seen">Most seen</option>
-          <option value="most words">Most words</option>
-          <option value="last edited">Last edited</option>
-          <option value="last open">Last open</option>
-        </select>
+    <!-- LOGIN -->
+    <div id="login_section">
+      <div id="login_div">
+        <h1 id="title">NOTES!</h1>
+        <p>Welcome back!</p>
+        <form>
+          <label for="Username">Username:</label><br>
+          <input type="text" id="Username" name="Username" value="guest"><br>
+          <label for="Password">Password:</label><br>
+          <input type="password" id="Password" name="Password" value="COLPASWOR"><br><br>
+          <button class="button_createnote" onclick="submit_clicked()" type="button">LOGIN</button>
+        </form>
+        <h4><a onclick="password_clicked()">Forgot password?</a></h4>
+        <h4><a onclick="create_clicked()">I don't have an account (yet) :/</a></h4>
       </div>
-  
-    </section>
-  
-    <section>
-      <h1>All Notes:</h1>
-  
-  
-      <span class="notes_gallery">
-  
-        <div class="notes_block">
-          <h1 class="title_note">Title</h1>
-          <p>Note Content</p>
-        </div>
-  
-        <div class="notes_block">
-          <h1 class="title_note">Title</h1>
-          <p>Note Content</p>
-        </div>
-  
-        <div class="notes_block">
-          <h1 class="title_note">Title</h1>
-          <p>Note Content</p>
-        </div>
-  
-        <div class="notes_block">
-          <h1 class="title_note">Title</h1>
-          <p>Note Content</p>
-        </div>
-  
-        <div class="notes_block">
-          <h1 class="title_note">Title</h1>
-          <p>Note Content</p>
-        </div>
-  
-        <div class="notes_block">
-          <h1 class="title_note">Title</h1>
-          <p>Note Content</p>
-        </div>
-  
-        <div class="notes_block">
-          <h1 class="title_note">Title</h1>
-          <p>Note Content</p>
-        </div>
-  
-        <div class="notes_block">
-          <h1 class="title_note">Title</h1>
-          <p>Note Content</p>
-        </div>
-  
-      </span>
-  
+    </div>
+
+    <!-- FORGOT PASSWORD -->
+    <div id="password_section">
+      <div id="login_div">
+        <h1 id="title">NOTES!</h1>
+        <p>Get yourself a new password!</p>
+        <form>
+          <label for="Username">Username:</label><br>
+          <input type="text" id="Username" name="Username" value="guest"><br>
+          <label for="Password">(New) Password:</label><br>
+          <input type="password" id="Password" name="Password" value="COLPASWOR"><br><br>
+          <button class="button_createnote" onclick="login_clicked()" type="button">LOGIN</button>
+        </form>
+        <h4><a onclick="login_clicked()">Actually, I know my password</a></h4>
+        <h4><a onclick="create_clicked()">I don't have an account (yet) :/</a></h4>
+      </div>
+    </div>
+
+    <!-- CREATE ACCOUNT -->
+    <div id="create_section">
+      <div id="login_div">
+        <h1 id="title">NOTES!</h1>
+        <p>Hello :)</p>
+        <form>
+          <label for="Username">What's your name?</label><br>
+          <input type="text" id="Username" name="Username" value="guest"><br>
+          <label for="Password">Password?</label><br>
+          <input type="password" id="Password" name="Password" value="COLPASWOR"><br><br>
+          <button class="button_createnote" onclick="login_clicked()" type="button">LOGIN</button>
+        </form>
+        <h4><a onclick="password_clicked()">Forgot password?</a></h4>
+        <h4><a onclick="login_clicked()">WAIT! I have an account (oops :P)</a></h4>
+      </div>
+    </div>
+
+    <!-- MAIN PAGE -->
+    <div id="mainpage_section">
       <section>
-        <h1>Categories:</h1>
-  
-        <span class="notes_gallery">
-  
-          <div class="notes_block">
-            <h1 class="title_note">Title</h1>
-            <p>Note Content</p>
-          </div>
-  
-          <div class="notes_block">
-            <h1 class="title_note">Title</h1>
-            <p>Note Content</p>
-          </div>
-  
-          <div class="notes_block">
-            <h1 class="title_note">Title</h1>
-            <p>Note Content</p>
-          </div>
-  
-          <div class="notes_block">
-            <h1 class="title_note">Title</h1>
-            <p>Note Content</p>
-          </div>
-  
-        </span>
+        <div id="filter_div">
+          <h3>Sort by:</h3>
+          <select name="filter" id="filter">
+            <option value="most seen">Most seen</option>
+            <option value="most words">Most words</option>
+            <option value="last edited">Last edited</option>
+            <option value="last open">Last open</option>
+          </select>
+        </div>
       </section>
     </div>
 
-<!--CREATENOTES-->    
-
     <div id="createnote_section">
-    <section >
-      <div class="block_createnote">
+      <section>
+        <div class="block_createnote">
           <h1 contenteditable="true">Note title</h1>
-      </div>
-      
-      <div class="block_createnote">
-          <p contenteditable="true"> Note content</p>
-      </div>
-      
-        </section>
-      
-      <br>
-      
-        <section>
-      
-          
-      <button class="button_createnote" type="button" > Exit </button>
-      <button class="button_createnote" type="button" > Save note </button>
-      
-        </section>
-      </div>
-
-<!--PROFILE-->
-
-
-<div id="profile_section">
-
-  <section class="section_profile">
-    <img src="./static/images/ -4.jpg" id="profile">
-    <div id="buttons_profile_div">
-        <br>
-        <button class="button_createnote" type="button">change profile pic </button> 
-        <button class="button_createnote" type="button"> delete account idk </button>
-    </div>
-    </section>
-    
-    <section class="section_profile"> 
-    <div>
-    <h3> Name:</h3>
-    <p class="user_info">Display user name here</p>
-    </div>
-    
-    <div>
-        <h3> Email:</h3>
-        <p class="user_info">Display user email here</p>
         </div>
-    
-    
-    </section>
+        <div class="block_createnote">
+          <p contenteditable="true">Note content</p>
+        </div>
+      </section>
+      <section>
+        <button class="button_createnote" type="button">Exit</button>
+        <button class="button_createnote" onclick="addNote()" type="button">Save note</button>
+      </section>
+    </div>
 
-</div>
-
+    <div id="profile_section">
+      <section class="section_profile">
+        <img src="./static/images/ -4.jpg" id="profile">
+        <div id="buttons_profile_div">
+          <button class="button_createnote" type="button">Change profile pic</button>
+          <button class="button_createnote" type="button">Delete account</button>
+        </div>
+      </section>
+      <section class="section_profile">
+        <div>
+          <h3>Name:</h3>
+          <p class="user_info">Display user name here</p>
+        </div>
+        <div>
+          <h3>Email:</h3>
+          <p class="user_info">Display user email here</p>
+        </div>
+      </section>
+    </div>
   </main>
 
-  <footer>
-  </footer>
+  <footer></footer>
 
-  
   <script>
+    // Sections
+    const section_login = document.getElementById("login_section");
+    const section_password = document.getElementById("password_section");
+    const section_create = document.getElementById("create_section");
+    const section_mainpage = document.getElementById("mainpage_section");
 
-
-var section_create_note = document.getElementById("createnote_section");
-var section_mainpage = document.getElementById("mainpage_section");
-var section_profile = document.getElementById("profile_section");
-
-var section_login = document.getElementById("login_section");
-var section_password = document.getElementById("password_section");
-var section_create = document.getElementById("create_section");
-
-var header_id_var = document.getElementById("header_id");
-
-//alteracoes da cor dos elementos
-    var buttons = document.getElementsByClassName('button_createnote');
-    
-    for(var i = 0; i < buttons.length; i++)
-    {
-      var colors = ['#FC7A1E', '#F24C00', '#485696'];
-    var random_color = colors[Math.floor(Math.random() * colors.length)];
-        buttons[i].style.backgroundColor = random_color;
-    }
-
-    var title_notes = document.getElementsByClassName('title_note');
-
-for (var j = 0; j < title_notes.length; j++) {
-  var colors = ['#FC7A1E', '#F24C00', '#485696'];
-  var random_color2 = colors[Math.floor(Math.random() * colors.length)];
-  title_notes[j].style.backgroundColor = random_color2;
-}
-    
-
-    //aumento e diminuicao da searchbar
-    function expandSearchBar() {
-      const searchBar = document.getElementById("search_bar");
-      searchBar.style.width = "60%";
-    
-    
-      document.addEventListener("click", function handleClickOutside(event) {
-        if (!searchBar.contains(event.target)) {
-          searchBar.style.width = "30%"; 
-          document.removeEventListener("click", handleClickOutside); 
-        }
+    function showSection(sectionToShow) {
+      [section_login, section_password, section_create].forEach((section) => {
+        section.style.display = section === sectionToShow ? "block" : "none";
       });
     }
-//funcoes para mudar de pagina quando se clica no ADD NOTE
 
-function hide_content() {
- 
-    section_mainpage.style.display = "none";
-    section_create_note.style.display = "block";
-    section_profile.style.display = "none";
-
-
-section_mainpage.style.display = "none";
-section_create_note.style.display = "block";
-section_profile.style.display = "none";
-
-
-}
-
-
-//funcoes para mudar de pagina quando se clica no PROFILE
-
-function hide_profile(){
-
-    section_create_note.style.display = "none";
-    section_mainpage.style.display = "none";
-    section_profile.style.display = "block";
-  
-
-}
-
-
-//funcoes para mudar de pagina quando se clica no MAINPAGE
-
-function hide_mainpage(){
-
-    section_create_note.style.display = "none";
-    section_mainpage.style.display = "block";
-    section_profile.style.display = "none";
-
-
-section_mainpage.style.display = "block";
-section_create_note.style.display = "none";
-section_profile.style.display = "none";
-
-}
-
-//quando se clica no botao de login, ira mostrar a MAINPAGE
-
-function submit_clicked(){
-
-  section_login.style.display ="none";
-  section_mainpage.style.display = "block";
-  document.body.style.background = "rgba(242, 242, 242, 1)";
-  header_id_var.style.display ="block"
-}
-
-//quando se clica, vai para a recuperacao de password
-    function password_clicked(){
-      section_login.style.display ="none";
-      section_password.style.display ="block";
-      section_create.style.display ="none";
+    function password_clicked() {
+      showSection(section_password);
     }
 
-    //quando se clica, vai para a criacao de conta
-    function create_clicked(){
-      section_login.style.display ="none";
-      section_password.style.display ="none";
-      section_create.style.display ="block";
+    function create_clicked() {
+      showSection(section_create);
     }
 
-     //quando se clica, vai para o login
-     function login_clicked(){
-      section_login.style.display ="block";
-      section_password.style.display ="none";
-      section_create.style.display ="none";
+    function login_clicked() {
+      showSection(section_login);
     }
-    
-
-    </script>
+  </script>
 </body>
 
 </html>
