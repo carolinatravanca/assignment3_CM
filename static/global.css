@@ -188,13 +188,10 @@ section > h1{
    font-family: 'Courier New', Courier, monospace;
 }
 
-
-/*add note */
-
 .block_createnote{
   border-radius: 20px;
   background-color: #E7E7E7;
-  font-family: 'Courier New', Courier, monospace;
+  font-family: anonymous;
   color: black;
 }
 
@@ -208,7 +205,7 @@ button{
   border-radius: 3px;
   padding: 10px;
   border-style: none;
-font-family: 'Courier New', Courier, monospace;
+font-family: anonymous;
 
 }
 

@@ -67,13 +67,13 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     const profileButton = document.getElementById("profile_button")
-    if(profileButton) {
+    if (profileButton) {
         profileButton.addEventListener("click", () => {
             showSection(section_profile)
         })
     }
     const mainPageButton = document.getElementById("logo_img")
-    if(mainPageButton) {
+    if (mainPageButton) {
         mainPageButton.addEventListener("click", () => {
             showSection(section_mainpage)
         })
@@ -113,12 +113,18 @@ document.addEventListener("DOMContentLoaded", () => {
 function expandSearchBar() {
     const searchBar = document.getElementById("search_bar");
     searchBar.style.width = "60%";
-  
-  
+
+
     document.addEventListener("click", function handleClickOutside(event) {
-      if (!searchBar.contains(event.target)) {
-        searchBar.style.width = "30%"; 
-        document.removeEventListener("click", handleClickOutside); 
-      }
+        if (!searchBar.contains(event.target)) {
+            searchBar.style.width = "30%";
+            document.removeEventListener("click", handleClickOutside);
+        }
     });
-  }
+}
+const editor = document.querySelector("#editor");
+const preview = document.querySelector(".preview");
+
+editor.addEventListener('input', e => {
+    preview.innerHTML = DOMPurify.sanitize(marked.parse(e.target.value));
+})
