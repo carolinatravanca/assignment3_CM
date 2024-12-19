@@ -16,7 +16,7 @@ async function main() {
 
     // Serve static files
     app.use('/static', express.static(path.resolve(__dirname, 'static')));
-    app.use(express.json()); // JSON middleware
+    app.use(express.json())
 
     // Endpoints
     app.post('/api/login', loginUser);
@@ -57,9 +57,33 @@ async function loginUser(message, response) {
 
 
 async function getAllNotes(message, response) {
-    const notes = await client.db('finalProject').collection('notes').find({}).toArray();
-    response.json(notes);
+    const db = client.db('finalProject');
+    const owner = message.query.owner; // Get the owner username from query parameters
+
+    // Find the owner's ObjectId
+    const ownerData = await db.collection('owner').findOne({ username: owner });
+    if (!ownerData) {
+        response.status(404).json({ error: 'Owner not found.' });
+        return;
+    }
+
+    // Fetch notes for this owner
+    const notes = await db.collection('notes').find({ owner: ownerData._id }).toArray();
+
+    // Format the notes
+    const formattedNotes = notes.map(note => ({
+        id: note._id.toString(),
+        title: note.title,
+        content: note.text,
+        category: note.category ? note.category.toString() : null
+    }));
+
+    response.status(200).json(formattedNotes);
 }
+
+
+
+
 
 async function addNote(message, response) {
     const newNote = message.body;
