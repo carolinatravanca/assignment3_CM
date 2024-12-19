@@ -54,13 +54,14 @@ nav {
   padding: 0 16px;
   transition: width 0.5s ease;
 }
+
 #search_bar input[type="search"] {
-  background-color: transparent; 
-  border: none; 
-  outline: none; 
-  color: #000; 
+  background-color: transparent;
+  border: none;
+  outline: none;
+  color: #000;
   font-size: 16px;
-  width: 100%; 
+  width: 100%;
 }
 
 
@@ -91,49 +92,49 @@ a {
   color: rgba(231, 231, 231, 1);
 }
 
-#createnote_section{
+#createnote_section {
   display: none;
 }
 
-#profile_section{
+#profile_section {
   display: none;
 }
 
-#mainpage_section{
+#mainpage_section {
   display: none;
 }
 
-#header_id{
+#header_id {
   display: none;
 }
 
-#login_section{
+#login_section {
   display: block;
 }
 
 #password_section,
 #create_section {
-  display: none; /* Hidden by default */
+  display: none;
 }
 
-/*homepage*/
 
-#filter_div{
+#filter_div {
   font-family: 'Courier New', Courier, monospace;
-   display: flex;
-   align-items: center;
-   justify-content: right;
+  display: flex;
+  align-items: center;
+  justify-content: right;
 }
 
-section > h3 {
-   color: rgba(130, 130, 130, 1);
-   font-family: 'Courier New', Courier, monospace;
+section>h3 {
+  color: rgba(130, 130, 130, 1);
+  font-family: 'Courier New', Courier, monospace;
 }
 
-section > h1{
-   color:black;
-   font-family: 'Courier New', Courier, monospace;
+section>h1 {
+  color: black;
+  font-family: 'Courier New', Courier, monospace;
 }
+
 .notes_block {
   background-color: #f5f5f5;
   border: 1px solid #ddd;
@@ -144,9 +145,9 @@ section > h1{
 }
 
 .note {
-  background-color: #ffffff; 
+  background-color: #ffffff;
   border: 1px solid #ddd;
-  border-radius: 8px; 
+  border-radius: 8px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   padding: 16px;
   margin: 16px 0;
@@ -158,14 +159,14 @@ section > h1{
 }
 
 .title_note {
-  font-size: 1.5em; 
+  font-size: 1.5em;
   font-weight: bold;
   color: #333;
   margin-bottom: 8px;
 }
 
 .note-content {
-  font-size: 1em; 
+  font-size: 1em;
   color: #555;
   line-height: 1.6;
 }
@@ -177,69 +178,73 @@ section > h1{
   gap: 16px;
 }
 
-.notes_block > h1{
-
+.notes_block>h1 {
+  height: 4rem;
+  padding: 1rem;
   color: rgba(231, 231, 231, 1);
   font-family: 'Courier New', Courier, monospace;
 }
 
-.notes_block > p{
-   color: black;
-   font-family: 'Courier New', Courier, monospace;
+.notes_block p {
+  color: black;
+  font-family: 'Courier New', Courier, monospace;
 }
 
-.block_createnote{
-  border-radius: 20px;
+.block_createnote h1 {
+  border-radius: 8px;
+  padding: 1rem;
   background-color: #E7E7E7;
   font-family: anonymous;
   color: black;
 }
 
-.block_createnote:nth-child(2){
- padding-bottom: 50%;
+.block_createnote textarea {
+  border-radius: 16px;
+    background-color: #E7E7E7;
+    font-family: anonymous;
+    color: black;
+    border: none;
+    width: 100%;
+    padding: 1rem;
+    height: 26rem;
 }
 
 
-button{
-  color: #E7E7E7 ;
+button {
+  color: #0a0a0a;
   border-radius: 3px;
   padding: 10px;
   border-style: none;
-font-family: anonymous;
-
+  font-family: anonymous;
+  background: steelblue;
 }
 
-/*profile*/
-
-
-#profile{
+#profile {
   max-width: 200px;
   border-radius: 50%;
 }
 
-.section_profile{
-display: flex;
-align-items: center;
-justify-content: center;
-flex-wrap: nowrap;
-flex-direction: column;
+.section_profile {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: nowrap;
+  flex-direction: column;
 }
 
 
+h3 {
+  font-family: 'Courier New', Courier, monospace;
 
-h3{
-  font-family:'Courier New', Courier, monospace ;
-  
 }
-.user_info{
-  font-family:'Courier New', Courier, monospace ;
+
+.user_info {
+  font-family: 'Courier New', Courier, monospace;
   background-color: #E7E7E7;
   border-radius: 10px;
 }
 
-/*login*/
-
-form{
+form {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -249,18 +254,16 @@ form{
   color: #E7E7E7;
 }
 
-#login_div{
+#login_div {
   display: flex;
   align-items: center;
   justify-content: center;
-margin-top: 20%;
+  margin-top: 20%;
   flex-wrap: nowrap;
   flex-direction: column;
 }
 
-#login_div > p{
+#login_div>p {
   font-family: 'Courier New', Courier, monospace;
-  
+
 }
-
-

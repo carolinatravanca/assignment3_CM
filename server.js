@@ -31,7 +31,7 @@ async function main() {
 
 async function loginUser(message, response) {
     const { username, password } = message.body;
-    const owners = client.db('finalProject').collection('owner'); // Changed to 'owner'
+    const owners = client.db('finalProject').collection('owner');
 
     const user = await owners.findOne({ username: username, password: password });
 
@@ -39,7 +39,7 @@ async function loginUser(message, response) {
         response.json({
             success: true,
             user: {
-                id: user._id,
+                id: user._id.toString(), // Return the owner's ID
                 email: user.email,
                 username: user.username,
                 profileImage: user.profileImage,
@@ -50,25 +50,24 @@ async function loginUser(message, response) {
     }
 }
 
+
 //see this again
 async function getAllNotes(message, response) {
-    const db = client.db('finalProject');
-    const owner = message.query.owner;
+    const ownerId = message.query.owner;
 
-    
-    const ownerData = await db.collection('owner').findOne({ username: owner });
-    if (!ownerData) {
-        response.status(404).json({ error: 'Owner not found.' });
+    if (!ownerId) {
+        response.status(400).json({ error: 'Owner ID is required.' });
         return;
     }
 
-    const notes = await db.collection('notes').find({ owner: ownerData._id }).toArray();
+    const notesCollection = client.db('finalProject').collection('notes');
+    const notes = await notesCollection.find({ owner: new mongodb.ObjectId(ownerId) }).toArray();
 
     const formattedNotes = notes.map(note => ({
         id: note._id.toString(),
-        title: note.title,
-        content: note.text,
-        category: note.category ? note.category.toString() : null
+        title: note.title || 'Untitled',
+        text: note.text,
+        category: note.category || null,
     }));
 
     response.status(200).json(formattedNotes);
@@ -78,11 +77,40 @@ async function getAllNotes(message, response) {
 
 
 
-async function addNote(message, response) {
-    const newNote = message.body;
-    const result = await client.db('finalProject').collection('notes').insertOne(newNote);
-    response.json(result);
+
+async function saveNoteToDB(owner, text, title, category = null) {
+    const notesCollection = client.db('finalProject').collection('notes');
+
+    // Insert the note into the database
+    return await notesCollection.insertOne({
+        owner: new mongodb.ObjectId(owner), // Convert owner to ObjectId
+        text,
+        title: title || "Untitled",
+        category,
+        createdAt: new Date(), // Timestamp
+    });
 }
+
+async function addNote(message, response) {
+    const { owner, text, title, category } = message.body;
+
+    // Validate the required fields
+    if (!owner || !text || !title) {
+        response.status(400).json({ error: 'Missing required fields: owner, title, or text' });
+        return;
+    }
+
+    // Call the reusable function to save the note
+    const result = await saveNoteToDB(owner, text, title, category);
+
+    if (result.acknowledged) {
+        response.status(201).json({ success: true, id: result.insertedId });
+    } else {
+        response.status(500).json({ error: 'Failed to save note' });
+    }
+}
+
+
 
 async function updateNote(message, response) {
     const id = message.params.id;

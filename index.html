@@ -6,6 +6,9 @@
   <meta name="viewport" content="width=device-width">
   <title>NOTES!</title>
   <link href="./static/global.css" rel="stylesheet" type="text/css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.2.3/purify.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js" defer></script>
+
 </head>
 
 <body>
@@ -106,25 +109,25 @@
     <div id="createnote_section">
       <section>
         <div class="block_createnote">
-          <h1 contenteditable="true">Note title</h1>
+            <h1 contenteditable="true" placeholder="Enter note title">Untitled</h1>
         </div>
         <div class="block_createnote">
-          <textarea name="editor" id="editor" cols="10" rows="10"></textarea>
+            <textarea name="editor" id="editor" cols="10" rows="10" placeholder="Start typing your note here..."></textarea>
         </div>
-        <div class="preview">
-        </div>
-      </section>  
-      <section>
-        <button class="button_createnote" type="button"> Exit </button>
-        <button class="button_createnote" type="button"> Save note </button>
-      </section>
+        <div class="preview"></div>
+    </section>
+    <section>
+        <button id="button_exit" class="button_createnote" type="button">Exit</button>
+        <button class="button_save" type="button">Save note</button>
+    </section>
+    
     </div>
 
     <div id="profile_section">
       <section class="section_profile">
         <img src="./static/images/ -4.jpg" id="profile">
         <div id="buttons_profile_div">
-          <button class="button_createnote" type="button">Change profile pic</button>
+          <button id class="button_createnote" type="button">Change profile pic</button>
           <button class="button_createnote" type="button">Delete account</button>
         </div>
       </section>
