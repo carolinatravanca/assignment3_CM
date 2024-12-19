@@ -37,6 +37,7 @@ nav {
   color: rgba(255 201 71);
   font-size: 24pt;
   letter-spacing: 3px;
+  cursor: pointer;
 }
 
 #search_bar {

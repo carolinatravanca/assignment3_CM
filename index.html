@@ -12,7 +12,7 @@
   <header id="header_id">
     <nav>
       <a id="logo_img">
-        <h1 onclick="hide_mainpage()" id="title">NOTES!</h1>
+        <h1 id="title">NOTES!</h1>
       </a>
 
       <div id="search_bar" onclick="expandSearchBar()">
@@ -26,7 +26,7 @@
           <img src="./static/images/nota.png" id="addnote_img">
         </div>
         <div class="button_header">
-          <a onclick="hide_profile()" data-link>Profile</a>
+          <a id="profile_button" data-link>Profile</a>
           <img src="./static/images/person.png" id="profile_img">
         </div>
       </span>
@@ -141,106 +141,7 @@
 
   <footer></footer>
 
-  <script>
-    // Define all sections at the top level
-    const section_login = document.getElementById("login_section")
-    const section_mainpage = document.getElementById("mainpage_section")
-    const section_createnote = document.getElementById("createnote_section")
-    const notesContainer = document.getElementById("notes_container")
-
-    function showSection(sectionToShow) {
-      const sections = [section_login, section_mainpage, section_create]
-      sections.forEach((section) => {
-        if (section) {
-          section.style.display = section === sectionToShow ? "block" : "none";
-        }
-      })
-
-      const header = document.getElementById("header_id")
-      if (header) {
-        header.style.display = "block";
-      }
-    }
-
-    async function loadNotes() {
-      const notesContainer = document.getElementById('notes_container')
-      notesContainer.innerHTML = ''; 
-
-      const owner = 'testuser';
-      const response = await fetch(`/api/notes?owner=${owner}`)
-
-      if (!response.ok) {
-        console.error('Failed to fetch notes, status:', response.status)
-        notesContainer.innerHTML = '<p>Error fetching notes</p>';
-        return
-      }
-
-      const notes = await response.json();
-
-      notes.forEach(note => {
-        const noteElement = document.createElement('div')
-        noteElement.classList.add('note')
-
-        const titleSpan = document.createElement('div')
-        titleSpan.classList.add('title_note')
-        titleSpan.textContent = note.title;
-
-        const contentSpan = document.createElement('div')
-        contentSpan.classList.add('content_note')
-        contentSpan.textContent = note.content;
-
-        noteElement.appendChild(titleSpan)
-        noteElement.appendChild(contentSpan)
-
-        notesContainer.appendChild(noteElement)
-      });
-    }
-
-    document.addEventListener('DOMContentLoaded', () => {
-      loadNotes();
-
-      // Add event listener for Add Note button
-      const addNoteButton = document.getElementById("add_note_button")
-      if (addNoteButton) {
-        addNoteButton.addEventListener("click", () => {
-          showSection(section_createnote)
-        });
-      }
-    });
-
-    document.addEventListener("DOMContentLoaded", () => {
-      async function submitLogin() {
-        const username = document.getElementById("login_Username").value;
-        const password = document.getElementById("login_Password").value;
-
-        const response = await fetch("/api/login", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ username, password }),
-        });
-
-        if (!response.ok) {
-          console.error("Login failed with status:", response.status)
-          alert("Login failed.")
-          return
-        }
-
-        const result = await response.json()
-        if (result.success) {
-          console.log("Login successful.")
-          showSection(section_mainpage)
-          document.body.style.background = "rgba(242, 242, 242, 1)"
-          await loadNotes()
-        } else {
-          alert("Login failed: " + result.message)
-        }
-      }
-
-      document.getElementById("login_button").addEventListener("click", submitLogin)
-    })
-  </script>
-
-
+  <script src="/static/script.js"></script>
 </body>
 
 </html>
