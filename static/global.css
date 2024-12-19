@@ -74,6 +74,7 @@ nav {
   margin: 0;
   padding: 0;
   color: rgba(231, 231, 231, 1);
+  cursor: pointer;
 }
 
 .button_header {

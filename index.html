@@ -22,7 +22,7 @@
 
       <span class="header_links">
         <div class="button_header">
-          <a onclick="hide_content()" data-link>Add Note</a>
+          <a id="add_note_button" data-link>Add Note</a>
           <img src="./static/images/nota.png" id="addnote_img">
         </div>
         <div class="button_header">
@@ -106,15 +106,15 @@
     <div id="createnote_section">
       <section>
         <div class="block_createnote">
-          <h1 contenteditable="true">Note title</h1>
+          <h1 id="note_title" contenteditable="true">Note title</h1>
         </div>
         <div class="block_createnote">
-          <p contenteditable="true">Note content</p>
+          <p id="note_content" contenteditable="true">Note content</p>
         </div>
       </section>
       <section>
-        <button class="button_createnote" type="button">Exit</button>
-        <button class="button_createnote" onclick="addNote()" type="button">Save note</button>
+        <button id="exit_createnote_button" class="button_createnote" type="button">Exit</button>
+        <button id="save_note_button" class="button_createnote" type="button">Save note</button>
       </section>
     </div>
 
@@ -142,64 +142,71 @@
   <footer></footer>
 
   <script>
-    const section_login = document.getElementById("login_section");
-    const section_mainpage = document.getElementById("mainpage_section");
-    const notesContainer = document.getElementById("notes_container");
+    // Define all sections at the top level
+    const section_login = document.getElementById("login_section")
+    const section_mainpage = document.getElementById("mainpage_section")
+    const section_createnote = document.getElementById("createnote_section")
+    const notesContainer = document.getElementById("notes_container")
 
     function showSection(sectionToShow) {
-      const sections = [section_login, section_mainpage];
+      const sections = [section_login, section_mainpage, section_create]
       sections.forEach((section) => {
-        section.style.display = section === sectionToShow ? "block" : "none";
+        if (section) {
+          section.style.display = section === sectionToShow ? "block" : "none";
+        }
       })
-      const header = document.getElementById("header_id");
+
+      const header = document.getElementById("header_id")
       if (header) {
         header.style.display = "block";
       }
-
-
     }
 
-
     async function loadNotes() {
-      const notesContainer = document.getElementById('notes_container');
-      notesContainer.innerHTML = ''; // Clear any existing content
+      const notesContainer = document.getElementById('notes_container')
+      notesContainer.innerHTML = ''; 
 
-      const owner = 'testuser'; // Replace with the actual username of the logged-in user
-      const response = await fetch(`/api/notes?owner=${owner}`);
+      const owner = 'testuser';
+      const response = await fetch(`/api/notes?owner=${owner}`)
 
       if (!response.ok) {
-        console.error('Failed to fetch notes, status:', response.status);
+        console.error('Failed to fetch notes, status:', response.status)
         notesContainer.innerHTML = '<p>Error fetching notes</p>';
-        return;
+        return
       }
 
       const notes = await response.json();
 
       notes.forEach(note => {
-        const noteElement = document.createElement('div');
-        noteElement.classList.add('note');
+        const noteElement = document.createElement('div')
+        noteElement.classList.add('note')
 
-        const titleSpan = document.createElement('div');
-        titleSpan.classList.add('title_note');
+        const titleSpan = document.createElement('div')
+        titleSpan.classList.add('title_note')
         titleSpan.textContent = note.title;
 
-        const contentSpan = document.createElement('div');
-        contentSpan.classList.add('content_note');
+        const contentSpan = document.createElement('div')
+        contentSpan.classList.add('content_note')
         contentSpan.textContent = note.content;
 
-        noteElement.appendChild(titleSpan);
-        noteElement.appendChild(contentSpan);
+        noteElement.appendChild(titleSpan)
+        noteElement.appendChild(contentSpan)
 
-        notesContainer.appendChild(noteElement);
-    });
+        notesContainer.appendChild(noteElement)
+      });
     }
 
-
-    // Call fetchNotes when the page loads
     document.addEventListener('DOMContentLoaded', () => {
       loadNotes();
-    });
 
+      // Add event listener for Add Note button
+      const addNoteButton = document.getElementById("add_note_button")
+      if (addNoteButton) {
+        addNoteButton.addEventListener("click", () => {
+          showSection(section_createnote)
+        });
+      }
+    });
 
     document.addEventListener("DOMContentLoaded", () => {
       async function submitLogin() {
@@ -210,12 +217,12 @@
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ username, password }),
-        })
+        });
 
         if (!response.ok) {
           console.error("Login failed with status:", response.status)
           alert("Login failed.")
-          return;
+          return
         }
 
         const result = await response.json()
@@ -223,18 +230,16 @@
           console.log("Login successful.")
           showSection(section_mainpage)
           document.body.style.background = "rgba(242, 242, 242, 1)"
-          await loadNotes(); // Now calling the defined loadNotes function
+          await loadNotes()
         } else {
           alert("Login failed: " + result.message)
         }
       }
 
-
-      document.getElementById("login_button").addEventListener("click", submitLogin);
-    });
-
-
+      document.getElementById("login_button").addEventListener("click", submitLogin)
+    })
   </script>
+
 
 </body>
 
