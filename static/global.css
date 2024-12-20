@@ -558,3 +558,119 @@ h3 {
   justify-content: space-between;
 }
 
+#display-image {
+  width: 2rem;
+    height: auto;
+}
+.file-input-container {
+  position: relative;
+}
+
+.file-input-label {
+  background-color: var(--blue);
+  color: white;
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  width: 100%;
+  margin: 1px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+  text-align: center;
+  display: inline-block;
+}
+
+.file-input-label:hover {
+  background-color: var(--blue);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+#image-input {
+  display: none;
+}
+#profile_section {
+  flex-direction: column;
+  gap: 2rem;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  background-color: var(--offwhite);
+  border-radius: 16px;
+  box-shadow: 0 4px 8px var(--tranparent);
+  max-width: 600px;
+  margin: 2rem auto;
+}
+
+.section_profile {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: 100%;
+}
+
+#buttons_profile_div {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: 100%;
+  align-items: center;
+}
+
+.file-input-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.file-input-label {
+  background-color: var(--blue);
+  color: white;
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  margin: 1px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+  text-align: center;
+}
+
+.file-input-label:hover {
+  background-color: var(--blue);
+  box-shadow: 0 2px 4px var(--tranparent);
+
+}
+
+button.button_createnote {
+  background-color: var(--red);
+  color: var(--offwhite);
+  padding: 12px;
+  border-radius: 8px;
+  font-size: 16px;
+  width: 100%;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button.button_createnote:hover {
+  background-color: var(--red);
+}
+
+h3 {
+  font-family: 'Courier New', Courier, monospace;
+  color: var(--black);
+  font-size: 1rem;
+}
+
+.user_info {
+  font-family: 'Courier New', Courier, monospace;
+  color: var(--black);
+  background-color: #E7E7E7;
+  padding: 8px;
+  border-radius: 8px;
+  width: 100%;
+  box-shadow: 0 2px 4px var(--tranparent);
+}

@@ -373,7 +373,36 @@ function showEditNoteSection(note) {
     };
 }
 
+const displayImage = document.getElementById('display-image');
+const imageInput = document.getElementById('image-input');
 
+// Load the saved image from localStorage, if any
+const savedImage = localStorage.getItem('selectedImage');
+if (savedImage) {
+    displayImage.src = savedImage;
+}
+
+// Listen for user file input
+imageInput.addEventListener('change', (event) => {
+    const file = event.target.files[0]; // Get the selected file
+
+    if (file) {
+        const reader = new FileReader();
+
+        // Convert the file to a data URL
+        reader.onload = (e) => {
+            const dataUrl = e.target.result;
+
+            // Update the image display
+            displayImage.src = dataUrl;
+
+            // Save the data URL to localStorage
+            localStorage.setItem('selectedImage', dataUrl);
+        };
+
+        reader.readAsDataURL(file); // Read the file
+    }
+});
 
 document.addEventListener("DOMContentLoaded", () => {
     fetchNotes()

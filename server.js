@@ -40,7 +40,7 @@ async function loginUser(message, response) {
         response.json({
             success: true,
             user: {
-                id: user._id.toString(),
+                id: user._id.toString(), // Return the owner's ID
                 email: user.email,
                 username: user.username,
                 profileImage: user.profileImage,
@@ -53,6 +53,8 @@ async function loginUser(message, response) {
 
 async function createUser(message, response) {
     const { username, password } = message.body;
+
+    // Validate input
     if (!username || !password) {
         response.status(400).json({ success: false, message: "Username and password are required." });
         return;
@@ -60,15 +62,17 @@ async function createUser(message, response) {
 
     const owners =await client.db('finalProject').collection('owner');
 
+    // Check if the username already exists
     const existingUser = await owners.findOne({ username: username });
     if (existingUser) {
         response.status(409).json({ success: false, message: "Username already exists. Please choose another." });
         return;
     }
 
+    // Create the user
     const result = await owners.insertOne({
         username,
-        password,
+        password, // In a real application, hash the password using bcrypt
         createdAt: new Date(),
     });
 
@@ -79,9 +83,10 @@ async function createUser(message, response) {
     }
 };
 
+//see this again
 async function getAllNotes(message, response) {
     const ownerId = message.query.owner;
-    const searchTerm = message.query.search || "";
+    const searchTerm = message.query.search || ""; // Get the search term from query parameters
 
     if (!ownerId) {
         response.status(400).json({ error: "Owner ID is required." });
@@ -96,8 +101,8 @@ async function getAllNotes(message, response) {
 
     if (searchTerm) {
         query.$or = [
-            { title: { $regex: searchTerm, $options: "i" } },
-            { text: { $regex: searchTerm, $options: "i" } }, 
+            { title: { $regex: searchTerm, $options: "i" } }, // Case-insensitive match in title
+            { text: { $regex: searchTerm, $options: "i" } },  // Case-insensitive match in text
         ];
     }
 
@@ -116,24 +121,26 @@ async function getAllNotes(message, response) {
 async function saveNoteToDB(owner, text, title, category = null) {
     const notesCollection = client.db('finalProject').collection('notes');
 
-    
+    // Insert the note into the database
     return await notesCollection.insertOne({
-        owner: new mongodb.ObjectId(owner),
+        owner: new mongodb.ObjectId(owner), // Convert owner to ObjectId
         text,
         title: title || "Untitled",
         category,
-        createdAt: new Date(),
+        createdAt: new Date(), // Timestamp
     });
 }
 
 async function addNote(message, response) {
     const { owner, text, title, category } = message.body;
 
+    // Validate the required fields
     if (!owner || !text || !title) {
         response.status(400).json({ error: 'Missing required fields: owner, title, or text' });
         return;
     }
 
+    // Call the reusable function to save the note
     const result = await saveNoteToDB(owner, text, title, category);
 
     if (result.acknowledged) {
@@ -144,35 +151,39 @@ async function addNote(message, response) {
 }
 
 
+
 async function updateNote(message, response) {
-    const id = message.params.id; 
-    const update = message.body;
-    if (!id || !update) {
-        response.status(400).json({ error: "Invalid ID or update data" });
+    const id = message.params.id;
+    const { title, text, category } = message.body;
+
+    if (!title && !text && !category) {
+        response.status(400).json({ error: "Nothing to update." });
         return;
     }
 
-    const notes = client.db("finalProject").collection("notes");
-    const result = await notes.updateOne(
-        { _id: new mongodb.ObjectId(id) },
-        { $set: update }
+    const updateFields = {};
+    if (title) updateFields.title = title;
+    if (text) updateFields.text = text;
+    if (category) updateFields.category = category;
+
+    const result = await client.db('finalProject').collection('notes').updateOne(
+        { _id: new mongodb.ObjectId.createFromHexString(id) },
+        { $set: updateFields }
     );
 
     if (result.matchedCount > 0) {
-        response.json({ success: true, message: "Note updated successfully" });
+        response.status(200).json({ success: true });
     } else {
-        response.status(404).json({ success: false, message: "Note not found" });
+        response.status(404).json({ error: "Note not found." });
     }
 }
 
 
-
-
 async function deleteNote(message, response) {
-    const id = message.params.id;
-    const notesCollection = client.db('finalProject').collection('notes'); 
+    const id = message.params.id; // Extract the ID from the request parameters
+    const notesCollection = client.db('finalProject').collection('notes'); // Access the notes collection
 
-    const result = await notesCollection.deleteOne({ _id: new mongodb.ObjectId(id) }); 
+    const result = await notesCollection.deleteOne({ _id: new mongodb.ObjectId(id) }); // Delete the note by ID
 
     if (result.deletedCount === 1) {
         response.status(200).json({ success: true, message: 'Note deleted successfully' });
