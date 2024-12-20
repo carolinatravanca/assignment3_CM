@@ -52,24 +52,6 @@
         <h4><a id="go_to_create_section">I don't have an account</a></h4>
       </div>
     </div>
-    
-
-    <!-- FORGOT PASSWORD -->
-    <div id="password_section">
-      <div id="login_div">
-        <h1 id="title">NOTES!</h1>
-        <p>Get yourself a new password!</p>
-        <form>
-          <label for="forgot_Username">Username:</label><br>
-          <input type="text" id="forgot_Username" name="Username"><br>
-          <label for="forgot_Password">(New) Password:</label><br>
-          <input type="password" id="forgot_Password" name="Password"><br><br>
-          <button id="forgot_button" class="button_createnote" type="button">LOGIN</button>
-        </form>
-        <h4><a onclick="login_clicked()">Actually, I know my password</a></h4>
-        <h4><a onclick="create_clicked()">I don't have an account (yet) :/</a></h4>
-      </div>
-    </div>
 
     <!-- CREATE ACCOUNT -->
     <div id="create_section">
@@ -86,22 +68,9 @@
         <h4><a id="go_to_login">I already have an account</a></h4>
       </div>
     </div>
-    
 
-
-    <!-- MAIN PAGE -->
     <div id="mainpage_section">
-      <section>
-        <div id="filter_div">
-          <h3>Sort by:</h3>
-          <select name="filter" id="filter">
-            <option value="most seen">Most seen</option>
-            <option value="most words">Most words</option>
-            <option value="last edited">Last edited</option>
-            <option value="last open">Last open</option>
-          </select>
-        </div>
-      </section>
+      
       <div id="notes_container" class="notes_gallery"></div>
 
     </div>
@@ -117,16 +86,20 @@
           <div class="preview"></div>
         </div>
       </section>
-    
+
       <section id="note_buttons">
         <button id="button_exit" class="button_cancel" type="button">Exit</button>
         <button id="button_save" class="button_save" type="button">Save Note</button>
       </section>
     </div>
-    
-
-
-
+    <div id="editnote_overlay" class="popup-overlay"></div>
+    <div id="editnote_section">
+      <h1 id="edit_note_title" contenteditable="true">Edit Title</h1>
+      <textarea id="edit_note_content" placeholder="Edit your note..."></textarea>
+      <div class="preview" id="edit_note_preview"></div>
+      <button id="save_edit_button">Save Changes</button>
+      <button id="cancel_edit_button">Cancel</button>
+    </div>
 
     </div>
 

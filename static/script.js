@@ -1,4 +1,3 @@
-// Section References
 const section_login = document.getElementById("login_section");
 const section_mainpage = document.getElementById("mainpage_section");
 const section_createnote = document.getElementById("createnote_section");
@@ -6,8 +5,6 @@ const section_profile = document.getElementById("profile_section");
 const section_editnote = document.getElementById("editnote_section")
 const section_create = document.getElementById("create_section")
 
-
-// Helper Functions
 function showSection(sectionToShow) {
     console.log(`Attempting to show section: ${sectionToShow?.id || "unknown"}`);
     const sections = [section_login, section_mainpage, section_createnote, section_profile, section_editnote, section_create];
@@ -22,23 +19,22 @@ function showSection(sectionToShow) {
         const noteTitle = document.querySelector(".block_createnote h1");
         const editor = document.getElementById("editor");
         const preview = document.querySelector(".preview")
-        if (noteTitle) noteTitle.textContent = "Untitled"; // Reset title
-        if (editor) editor.value = ""; // Reset content
+        if (noteTitle) noteTitle.textContent = "Untitled";
+        if (editor) editor.value = "";
         if (preview) preview.value = "";
     }
 
     const header = document.getElementById("header_id");
     if (header) {
-        // Hide the header when showing login or create account sections
         header.style.display = (sectionToShow === section_login || sectionToShow === create_section) ? "none" : "block";
     }
 }
 
 async function fetchNotes(searchTerm = "") {
     const notesContainer = document.getElementById("notes_container");
-    notesContainer.innerHTML = ""; // Clear notes container
+    notesContainer.innerHTML = "";
 
-    const ownerId = localStorage.getItem("loggedInUserId"); // Get logged-in user's ID
+    const ownerId = localStorage.getItem("loggedInUserId");
     if (!ownerId) {
         alert("User not logged in. Please log in again.");
         return;
@@ -53,62 +49,83 @@ async function fetchNotes(searchTerm = "") {
     }
 
     const notes = await response.json();
-    notes.forEach((note) => {
-        const noteElement = document.createElement("div");
-        noteElement.classList.add("note");
+    const categories = {};
+    notes.forEach(note => {
+        const category = note.category || "All notes";
+        if (!categories[category]) {
+            categories[category] = [];
+        }
+        categories[category].push(note);
+    });
 
-        const titleSpan = document.createElement("div");
-        titleSpan.classList.add("title_note");
-        titleSpan.textContent = note.title;
+    Object.keys(categories).forEach(category => {
+        const categoryRow = document.createElement("div");
+        categoryRow.classList.add("category-row"); 
 
-        const contentSpan = document.createElement("div");
-        contentSpan.classList.add("content_note");
-        contentSpan.textContent = note.text;
+        const categoryTitle = document.createElement("span");
+        categoryTitle.classList.add("category-title");
+        categoryTitle.textContent = category;
 
-        const footer = document.createElement("div");
-        footer.classList.add("note-footer");
+        const notesWrapper = document.createElement("div");
+        notesWrapper.classList.add("notes-wrapper"); 
 
-        const editButton = document.createElement("button");
-        editButton.textContent = "Edit";
-        editButton.classList.add("edit-button");
-        editButton.addEventListener("click", () => {
-            showEditNoteSection(note);
-        });
+        categories[category].forEach(note => {
+            const noteElement = document.createElement("div");
+            noteElement.classList.add("note");
 
-        const deleteButton = document.createElement("button");
-        deleteButton.textContent = "Delete";
-        deleteButton.classList.add("delete-button");
-        deleteButton.addEventListener("click", async () => {
-            const confirmDelete = confirm("Are you sure you want to delete this note?");
-            if (confirmDelete) {
-                const response = await fetch(`/api/notes/${note.id}`, {
-                    method: "DELETE",
-                });
+            const titleSpan = document.createElement("div");
+            titleSpan.classList.add("title_note");
+            titleSpan.textContent = note.title;
 
-                if (response.ok) {
-                    alert("Note deleted successfully!");
-                    await fetchNotes(searchTerm); // Re-fetch notes with the current search term
-                } else {
-                    alert("Failed to delete note. Please try again.");
+            const contentSpan = document.createElement("div");
+            contentSpan.classList.add("content_note");
+            contentSpan.textContent = note.text;
+
+            const footer = document.createElement("div");
+            footer.classList.add("note-footer");
+
+            const editButton = document.createElement("button");
+            editButton.textContent = "Edit";
+            editButton.classList.add("edit-button");
+            editButton.addEventListener("click", () => {
+                showEditNoteSection(note);
+            });
+
+            const deleteButton = document.createElement("button");
+            deleteButton.textContent = "Delete";
+            deleteButton.classList.add("delete-button");
+            deleteButton.addEventListener("click", async () => {
+                const confirmDelete = confirm("Are you sure you want to delete this note?");
+                if (confirmDelete) {
+                    const response = await fetch(`/api/notes/${note.id}`, {
+                        method: "DELETE",
+                    });
+
+                    if (response.ok) {
+                        alert("Note deleted successfully!");
+                        await fetchNotes(searchTerm);
+                    } else {
+                        alert("Failed to delete note. Please try again.");
+                    }
                 }
-            }
+            });
+
+            footer.appendChild(deleteButton);
+            footer.appendChild(editButton);
+
+            noteElement.appendChild(titleSpan);
+            noteElement.appendChild(contentSpan);
+            noteElement.appendChild(footer);
+
+            notesWrapper.appendChild(noteElement);
         });
 
-        footer.appendChild(deleteButton);
-        footer.appendChild(editButton);
+        categoryRow.appendChild(categoryTitle);
+        categoryRow.appendChild(notesWrapper);
 
-        noteElement.appendChild(titleSpan);
-        noteElement.appendChild(contentSpan);
-        noteElement.appendChild(footer);
-
-        notesContainer.appendChild(noteElement);
+        notesContainer.appendChild(categoryRow);
     });
 }
-
-
-
-
-
 
 async function submitLogin() {
     const username = document.getElementById("login_Username").value;
@@ -131,7 +148,7 @@ async function submitLogin() {
     const result = await response.json();
     if (result.success) {
         console.log("Login successful.");
-        localStorage.setItem("loggedInUserId", result.user.id); // Save owner ID
+        localStorage.setItem("loggedInUserId", result.user.id);
         showSection(section_mainpage);
         document.body.style.background = "rgba(242, 242, 242, 1)";
         await fetchNotes();
@@ -142,13 +159,11 @@ async function submitLogin() {
 
 
 function setupEventListeners() {
-    // Add Note Button
     const addNoteButton = document.getElementById("add_note_button");
     if (addNoteButton) {
         addNoteButton.addEventListener("click", () => showSection(section_createnote));
     }
 
-    // Profile Button
     const profileButton = document.getElementById("profile_button");
     if (profileButton) {
         profileButton.addEventListener("click", () => showSection(section_profile));
@@ -157,11 +172,10 @@ function setupEventListeners() {
     const searchInput = document.getElementById("search_input");
     if (searchInput) {
         searchInput.addEventListener("input", (e) => {
-            fetchNotes(e.target.value); // Pass the search term dynamically
+            fetchNotes(e.target.value); 
         });
     }
 
-    // Main Page Button
     const mainPageButton = document.getElementById("logo_img");
     if (mainPageButton) {
         mainPageButton.addEventListener("click", () => showSection(section_mainpage));
@@ -171,44 +185,39 @@ function setupEventListeners() {
     if (goToCreateSectionLink) {
         goToCreateSectionLink.addEventListener("click", () => {
             const section_create = document.getElementById("create_section");
-            showSection(section_create); // Show the create account section
+            showSection(section_create); 
         });
     }
 
-    // Navigate to Login Section
     const goToLoginLink = document.getElementById("go_to_login");
     if (goToLoginLink) {
         goToLoginLink.addEventListener("click", () => {
             const section_login = document.getElementById("login_section");
-            showSection(section_login); // Show the login section
+            showSection(section_login);
         });
     }
 
-    // Login Button
     const loginButton = document.getElementById("login_button");
     if (loginButton) {
         loginButton.addEventListener("click", submitLogin);
     }
 
-    // Expand Search Bar
     const searchBar = document.getElementById("search_bar");
     if (searchBar) {
         searchBar.addEventListener("click", expandSearchBar)
     }
 
-    // Save Changes Button
     const saveEditButton = document.getElementById("save_edit_button");
     if (saveEditButton) {
         saveEditButton.addEventListener("click", () => {
-            // Save logic here
+            showSection(section_mainpage); 
         });
     }
 
-    // Cancel Button for Edit Section
     const cancelEditButton = document.getElementById("button_exit");
     if (cancelEditButton) {
         cancelEditButton.addEventListener("click", () => {
-            showSection(section_mainpage); // Return to the main page
+            showSection(section_mainpage); 
         });
     }
 
@@ -223,7 +232,7 @@ function setupEventListeners() {
         saveNoteButton.addEventListener("click", async () => {
             const title = noteTitle.textContent.trim();
             const content = editor.value.trim();
-            const ownerId = localStorage.getItem("loggedInUserId"); // Get owner ID from localStorage
+            const ownerId = localStorage.getItem("loggedInUserId");
 
             if (!ownerId) {
                 alert("User not logged in. Please log in again.");
@@ -275,7 +284,7 @@ function setupEventListeners() {
                 const result = await response.json();
                 if (result.success) {
                     alert("Account created successfully!");
-                    showSection(section_login); // Redirect to login page
+                    showSection(section_login);
                 } else {
                     alert(result.message);
                 }
@@ -284,8 +293,6 @@ function setupEventListeners() {
             }
         });
     }
-
-
 
     const editorElement = document.querySelector("#editor");
     const preview = document.querySelector(".preview");
@@ -311,16 +318,24 @@ function showEditNoteSection(note) {
     const editNoteSection = document.getElementById("editnote_section");
     const editNoteTitle = document.getElementById("edit_note_title");
     const editNoteContent = document.getElementById("edit_note_content");
+    const editNotePreview = document.getElementById("edit_note_preview");
+    const overlay = document.getElementById("editnote_overlay");
 
-    if (!editNoteSection || !editNoteTitle || !editNoteContent) {
-        console.error("Edit note section or elements not found!");
+    if (!editNoteSection || !editNoteTitle || !editNoteContent || !editNotePreview || !overlay) {
+        console.error("Required elements for edit note are missing.");
         return;
     }
 
     editNoteTitle.textContent = note.title || "Untitled";
     editNoteContent.value = note.text || "";
+    editNotePreview.innerHTML = DOMPurify.sanitize(marked.parse(note.text || ""));
 
     editNoteSection.style.display = "block";
+    overlay.style.display = "block";
+
+    editNoteContent.addEventListener("input", (e) => {
+        editNotePreview.innerHTML = DOMPurify.sanitize(marked.parse(e.target.value));
+    });
 
     const saveEditButton = document.getElementById("save_edit_button");
     saveEditButton.onclick = async () => {
@@ -344,6 +359,7 @@ function showEditNoteSection(note) {
         if (response.ok) {
             alert("Note updated successfully!");
             editNoteSection.style.display = "none";
+            overlay.style.display = "none";
             await fetchNotes();
         } else {
             alert("Failed to update note. Please try again.");
@@ -353,6 +369,7 @@ function showEditNoteSection(note) {
     const cancelEditButton = document.getElementById("cancel_edit_button");
     cancelEditButton.onclick = () => {
         editNoteSection.style.display = "none";
+        overlay.style.display = "none";
     };
 }
 
@@ -362,4 +379,3 @@ document.addEventListener("DOMContentLoaded", () => {
     fetchNotes()
     setupEventListeners()
 });
-
