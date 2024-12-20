@@ -38,22 +38,21 @@
 
   <main>
 
-    <!-- LOGIN -->
     <div id="login_section">
       <div id="login_div">
-        <h1 id="title">NOTES!</h1>
-        <p>Welcome back!</p>
+        <h1>Welcome Back!</h1>
+        <p>Login to your account</p>
         <form>
-          <label for="login_Username">Username:</label><br>
+          <label for="login_Username">Username:</label>
           <input type="text" id="login_Username" name="Username">
-          <label for="login_Password">Password:</label><br>
-          <input type="password" id="login_Password" name="Password"><br><br>
-          <button id="login_button" class="button_createnote" type="button">LOGIN</button>
+          <label for="login_Password">Password:</label>
+          <input type="password" id="login_Password" name="Password">
+          <button id="login_button" type="button">LOGIN</button>
         </form>
-        <h4><a onclick="password_clicked()">Forgot password?</a></h4>
-        <h4><a id="go_to_create_section">I don't have an account (yet) :/</a></h4>
+        <h4><a id="go_to_create_section">I don't have an account</a></h4>
       </div>
     </div>
+    
 
     <!-- FORGOT PASSWORD -->
     <div id="password_section">
@@ -75,18 +74,19 @@
     <!-- CREATE ACCOUNT -->
     <div id="create_section">
       <div id="login_div">
-        <h1 id="title">NOTES!</h1>
-        <p>Create an account to get started.</p>
+        <h1>Get Started!</h1>
+        <p>Create an account to start using Notes!</p>
         <form>
-          <label for="create_Username">What's your name?</label><br>
-          <input type="text" id="create_Username" name="Username"><br>
-          <label for="create_Password">Password?</label><br>
-          <input type="password" id="create_Password" name="Password"><br><br>
-          <button id="create_account_button" class="button_createnote" type="button">Create Account</button>
+          <label for="create_Username">Username:</label>
+          <input type="text" id="create_Username" name="Username">
+          <label for="create_Password">Password:</label>
+          <input type="password" id="create_Password" name="Password">
+          <button id="create_account_button" type="button">Create Account</button>
         </form>
-        <h4><a id="go_to_login">I already have an account!</a></h4>
+        <h4><a id="go_to_login">I already have an account</a></h4>
       </div>
     </div>
+    
 
 
     <!-- MAIN PAGE -->
@@ -107,35 +107,23 @@
     </div>
 
     <div id="createnote_section">
-      <section>
-        <div class="block_createnote">
-          <h1 contenteditable="true" placeholder="Enter note title">Untitled</h1>
+      <section id="add_note_container">
+        <div id="note_editor">
+          <h1 contenteditable="true" id="note_title" placeholder="Enter note title">Untitled</h1>
+          <textarea name="editor" id="editor" placeholder="Start typing your note here..."></textarea>
         </div>
-        <div class="block_createnote">
-          <textarea name="editor" id="editor" cols="10" rows="10"
-            placeholder="Start typing your note here..."></textarea>
+        <div id="note_preview">
+          <h1>Preview</h1>
+          <div class="preview"></div>
         </div>
-        <div class="preview"></div>
       </section>
-      <section>
-        <button id="button_exit" class="button_createnote" type="button">Exit</button>
-        <button class="button_save" type="button">Save note</button>
+    
+      <section id="note_buttons">
+        <button id="button_exit" class="button_cancel" type="button">Exit</button>
+        <button id="button_save" class="button_save" type="button">Save Note</button>
       </section>
-
-      <div id="editnote_section">
-        <section>
-          <div class="block_createnote">
-            <h1 id="edit_note_title" contenteditable="true">Edit Note Title</h1>
-          </div>
-          <div class="block_createnote">
-            <textarea id="edit_note_content" cols="30" rows="10">Edit Note Content</textarea>
-          </div>
-        </section>
-        <section>
-          <button id="cancel_edit_button" class="button_createnote" type="button">Cancel</button>
-          <button id="save_edit_button" class="button_createnote" type="button">Save Changes</button>
-        </section>
-      </div>
+    </div>
+    
 
 
 

@@ -216,9 +216,9 @@ function setupEventListeners() {
 
 
     // Save Note Button
-    const saveNoteButton = document.querySelector(".button_save")
+    const saveNoteButton = document.getElementById("button_save")
     const editor = document.getElementById("editor");
-    const noteTitle = document.querySelector(".block_createnote h1")
+    const noteTitle = document.querySelector("#createnote_section h1");
     if (saveNoteButton) {
         saveNoteButton.addEventListener("click", async () => {
             const title = noteTitle.textContent.trim();
