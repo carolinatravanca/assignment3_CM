@@ -1,17 +1,109 @@
+:root {
+  --blue: #485696;
+  --orange: #FC7A1E;
+  --red: #F24C00;
+  --yellow: rgba(255 201 71);
+  --offwhite: rgba(255, 255, 255, 1);
+  --black: #333;
+  --tranparent: rgba(0, 0, 0, 0.2);
+
+}
+
 body {
-  background-color: rgba(72, 86, 150, 1);
+  background-color: var(--blue);
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+}
+
+
+#login_div p {
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 16px;
+  color: var(--black);
+  margin-bottom: 24px;
+}
+
+#login_div, #create_section #login_div {
+  background-color: var(--offwhite);
+  border-radius: 16px;
+  box-shadow: 0 4px 8px var(--black);
+  padding: 32px;
+  width: 90%;
+  max-width: 400px;
+  text-align: center;
+  margin: auto;
+  margin-top: 8rem;
+}
+
+form {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  flex-wrap: nowrap;
+  flex-direction: column;
+  font-family: 'Courier New', Courier, monospace;
+  color: #E7E7E7;
+}
+
+form label {
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 16px;
+  color: var(--black);
+  display: block;
+  margin: 8px 0;
+}
+
+form input {
+  width: 100%;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid var(--tranparent);
+  font-size: 14px;
+  margin-bottom: 16px;
+  width: -webkit-fill-available
+}
+
+button {
+  background-color: var(--blue);
+  color: white;
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  width: 100%;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: var(--blue);
+  border: 1px solid var(--offwhite);
+}
+
+h4 a {
+  color: var(--blue);
+  text-decoration: none;
+  font-size: 14px;
+}
+
+h4 a:hover {
+  text-decoration: underline;
+  cursor: pointer;
 }
 
 
 header {
-  background-color: rgba(72, 86, 150, 1);
+  background-color: var(--blue);
   padding: 10px 0;
   position: relative;
-  top: -8px;
-  left: -8px;
-  width: 100vw;
+  top: 0;
+  left: 0;
+  width: 100%;
   margin: 0;
 }
+
 
 @font-face {
   font-family: taurian;
@@ -34,7 +126,7 @@ nav {
 
 #title {
   font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
-  color: rgba(255 201 71);
+  color: var(--yellow);
   font-size: 24pt;
   letter-spacing: 3px;
   cursor: pointer;
@@ -54,13 +146,14 @@ nav {
   padding: 0 16px;
   transition: width 0.5s ease;
 }
+
 #search_bar input[type="search"] {
-  background-color: transparent; 
-  border: none; 
-  outline: none; 
-  color: #000; 
+  background-color: transparent;
+  border: none;
+  outline: none;
+  color: var(--black);
   font-size: 16px;
-  width: 100%; 
+  width: 100%;
 }
 
 
@@ -91,63 +184,94 @@ a {
   color: rgba(231, 231, 231, 1);
 }
 
-#createnote_section{
-  display: none;
-}
-
-#profile_section{
-  display: none;
-}
-
-#mainpage_section{
-  display: none;
-}
-
-#header_id{
-  display: none;
-}
-
-#login_section{
-  display: block;
-}
-
+#createnote_section,
+#profile_section,
+#mainpage_section,
+#header_id,
 #password_section,
-#create_section {
-  display: none; /* Hidden by default */
+#create_section{
+  display: none;
 }
 
-/*homepage*/
+#editnote_section {
+  display: none;
+  visibility: visible;
+  position: relative;
+  z-index: 10;
+  background-color: #ffffff;
+  padding: 1rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px var(--tranparent);
+  width: 100%;
+  max-width: 600px;
+  margin: 2rem auto;
+}
 
-#filter_div{
+#login_section {
+  display: flex;
+}
+
+#filter_div {
   font-family: 'Courier New', Courier, monospace;
-   display: flex;
-   align-items: center;
-   justify-content: right;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 1rem;
+  padding: 1rem;
 }
 
-section > h3 {
-   color: rgba(130, 130, 130, 1);
-   font-family: 'Courier New', Courier, monospace;
+#filter_div h3 {
+  margin: 0;
+  font-size: 1rem;
+  color: var(--black);
 }
 
-section > h1{
-   color:black;
-   font-family: 'Courier New', Courier, monospace;
+#filter_div select {
+  padding: 0.5rem;
+  font-size: 1rem;
+  border: 1px solid var(--tranparent);
+  border-radius: 8px;
+  background-color: var(--offwhite);
+  cursor: pointer;
 }
+
+section>h3 {
+  color: rgba(130, 130, 130, 1);
+  font-family: 'Courier New', Courier, monospace;
+}
+
+section>h1 {
+  color: var(--black);
+  font-family: 'Courier New', Courier, monospace;
+}
+
 .notes_block {
   background-color: #f5f5f5;
   border: 1px solid #ddd;
   border-radius: 8px;
   padding: 16px;
   margin: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 4px var(--tranparent);
+}
+
+.notes_block>h1 {
+  height: 4rem;
+  padding: 1rem;
+  color: rgba(231, 231, 231, 1);
+  font-family: 'Courier New', Courier, monospace;
+}
+
+.notes_block p {
+  color: var(--black);
+  font-family: 'Courier New', Courier, monospace;
 }
 
 .note {
-  background-color: #ffffff; 
+  position: relative;
+  background-color: #ffffff;
   border: 1px solid #ddd;
-  border-radius: 8px; 
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  box-shadow: 0 4px 6px var(--tranparent);
   padding: 16px;
   margin: 16px 0;
   max-width: 400px;
@@ -155,115 +279,205 @@ section > h1{
   flex-direction: column;
   gap: 8px;
   word-wrap: break-word;
+  transition: all 0.3s ease;
+  padding: 24px;
+}
+
+.note-footer {
+  display: flex;
+  justify-content: space-between;
+  margin-top: auto;
+  opacity: 0; 
+  transition: opacity 0.3s ease;
+}
+
+.note:hover .note-footer {
+  opacity: 1;
+}
+
+.note-footer button {
+  width: 50%;
+  padding: 10px 0;
+  border: none;
+  border-radius: 4px;
+  font-family: anonymous;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.note-footer .edit-button {
+  background-color: var(--blue);
+  color: var(--offwhite);
+  border-top-right-radius: 8px;
+}
+
+.note-footer .edit-button:hover {
+  background-color: var(--blue);
+  box-shadow: 0 4px 6px var(--tranparent)
+}
+
+.note-footer .delete-button {
+  background-color: var(--red);
+  color: var(--offwhite);
+  border-top-left-radius: 8px; /* Rounded corner for the left button */
+}
+
+.note-footer .delete-button:hover {
+  background-color: var(--red);
+  box-shadow: 0 4px 6px var(--tranparent)
 }
 
 .title_note {
-  font-size: 1.5em; 
+  font-size: 1.5em;
   font-weight: bold;
-  color: #333;
+  color: var(--black);
   margin-bottom: 8px;
 }
 
 .note-content {
-  font-size: 1em; 
-  color: #555;
+  font-size: 1em;
+  color: var(--black);
   line-height: 1.6;
 }
-
 
 .notes_gallery {
   display: flex;
   flex-wrap: wrap;
+  padding: 2rem;
   gap: 16px;
 }
 
-.notes_block > h1{
-
-  color: rgba(231, 231, 231, 1);
-  font-family: 'Courier New', Courier, monospace;
+#add_note_container {
+  display: flex;
+  flex-direction: row;
+  gap: 2rem;
+  padding: 2rem;
+  height: 80vh;
 }
 
-.notes_block > p{
-   color: black;
-   font-family: 'Courier New', Courier, monospace;
+#note_editor {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 1rem;
 }
 
+#note_editor h1 {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  font-family: anonymous;
+  color: var(--black);
+  border: none;
+  background: #e7e7e7;
+  padding: 0.5rem;
+  border-radius: 8px;
+}
 
-/*add note */
-
-.block_createnote{
-  border-radius: 20px;
-  background-color: #E7E7E7;
-  font-family: 'Courier New', Courier, monospace;
+#note_editor textarea {
+  flex-grow: 1;
+  width: auto;
+  border: none;
+  background-color: #e7e7e7;
+  font-family: anonymous;
+  padding: 1rem;
+  border-radius: 8px;
+  font-size: 1rem;
   color: black;
+  resize: none;
 }
 
-.block_createnote:nth-child(2){
- padding-bottom: 50%;
+#note_preview {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background-color: #ffffff;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 1rem;
+  overflow-y: auto;
 }
 
-
-button{
-  color: #E7E7E7 ;
-  border-radius: 3px;
-  padding: 10px;
-  border-style: none;
-font-family: 'Courier New', Courier, monospace;
-
+#note_preview h1 {
+  font-size: 1.5rem;
+  font-family: anonymous;
+  color: var(--black);
+  margin-bottom: 1rem;
 }
 
-/*profile*/
+.preview {
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  padding: 1rem;
+  font-family: 'Courier New', Courier, monospace;
+  overflow-y: auto;
+  height: 100%;
+}
+@media (max-width: 768px) {
+  #add_note_container {
+    flex-direction: column;
+  }
 
+  #note_buttons {
+    flex-direction: column;
+    gap: 1rem;
+  }
 
-#profile{
+  button {
+    width: 100%;
+  }
+}
+
+#note_buttons {
+  display: flex;
+  gap: 1rem;
+  width: 15rem;
+  padding: 1rem;
+}
+
+button.button_cancel {
+  background-color: var(--red);
+  color: var(--offwhite);
+}
+
+button.button_cancel:hover {
+  background-color: var(--red);
+  box-shadow: 0 4px 6px var(--tranparent)
+}
+
+button.button_save {
+  background-color: var(--blue);
+  color: var(--offwhite);
+}
+
+button.button_save:hover {
+  background-color: var(--blue);
+  box-shadow: 0 4px 6px var(--tranparent)
+}
+
+#profile {
   max-width: 200px;
   border-radius: 50%;
 }
 
-.section_profile{
-display: flex;
-align-items: center;
-justify-content: center;
-flex-wrap: nowrap;
-flex-direction: column;
+.section_profile {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: nowrap;
+  flex-direction: column;
 }
 
+h3 {
+  font-family: 'Courier New', Courier, monospace;
 
-
-h3{
-  font-family:'Courier New', Courier, monospace ;
-  
 }
-.user_info{
-  font-family:'Courier New', Courier, monospace ;
+
+.user_info {
+  font-family: 'Courier New', Courier, monospace;
   background-color: #E7E7E7;
   border-radius: 10px;
 }
-
-/*login*/
-
-form{
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-wrap: nowrap;
-  flex-direction: column;
-  font-family: 'Courier New', Courier, monospace;
-  color: #E7E7E7;
-}
-
-#login_div{
-  display: flex;
-  align-items: center;
-  justify-content: center;
-margin-top: 20%;
-  flex-wrap: nowrap;
-  flex-direction: column;
-}
-
-#login_div > p{
-  font-family: 'Courier New', Courier, monospace;
-  
-}
-
-

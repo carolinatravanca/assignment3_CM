@@ -17,6 +17,7 @@ async function main() {
     app.use(express.json())
 
     app.post('/api/login', loginUser);
+    app.post('/api/createUser', createUser)
     app.get('/api/notes', getAllNotes);
     app.post('/api/notes', addNote);
     app.put('/api/notes/:id', updateNote);
@@ -31,7 +32,7 @@ async function main() {
 
 async function loginUser(message, response) {
     const { username, password } = message.body;
-    const owners = client.db('finalProject').collection('owner'); // Changed to 'owner'
+    const owners = client.db('finalProject').collection('owner');
 
     const user = await owners.findOne({ username: username, password: password });
 
@@ -39,7 +40,7 @@ async function loginUser(message, response) {
         response.json({
             success: true,
             user: {
-                id: user._id,
+                id: user._id.toString(), // Return the owner's ID
                 email: user.email,
                 username: user.username,
                 profileImage: user.profileImage,
@@ -50,60 +51,146 @@ async function loginUser(message, response) {
     }
 }
 
-//see this again
-async function getAllNotes(message, response) {
-    const db = client.db('finalProject');
-    const owner = message.query.owner;
+async function createUser(message, response) {
+    const { username, password } = message.body;
 
-    
-    const ownerData = await db.collection('owner').findOne({ username: owner });
-    if (!ownerData) {
-        response.status(404).json({ error: 'Owner not found.' });
+    // Validate input
+    if (!username || !password) {
+        response.status(400).json({ success: false, message: "Username and password are required." });
         return;
     }
 
-    const notes = await db.collection('notes').find({ owner: ownerData._id }).toArray();
+    const owners =await client.db('finalProject').collection('owner');
 
-    const formattedNotes = notes.map(note => ({
+    // Check if the username already exists
+    const existingUser = await owners.findOne({ username: username });
+    if (existingUser) {
+        response.status(409).json({ success: false, message: "Username already exists. Please choose another." });
+        return;
+    }
+
+    // Create the user
+    const result = await owners.insertOne({
+        username,
+        password, // In a real application, hash the password using bcrypt
+        createdAt: new Date(),
+    });
+
+    if (result.acknowledged) {
+        response.status(201).json({ success: true, message: "Account created successfully!" });
+    } else {
+        response.status(500).json({ success: false, message: "Failed to create account. Please try again later." });
+    }
+};
+
+//see this again
+async function getAllNotes(message, response) {
+    const ownerId = message.query.owner;
+    const searchTerm = message.query.search || ""; // Get the search term from query parameters
+
+    if (!ownerId) {
+        response.status(400).json({ error: "Owner ID is required." });
+        return;
+    }
+
+    const notesCollection = client.db("finalProject").collection("notes");
+
+    const query = {
+        owner: new mongodb.ObjectId(ownerId),
+    };
+
+    if (searchTerm) {
+        query.$or = [
+            { title: { $regex: searchTerm, $options: "i" } }, // Case-insensitive match in title
+            { text: { $regex: searchTerm, $options: "i" } },  // Case-insensitive match in text
+        ];
+    }
+
+    const notes = await notesCollection.find(query).toArray();
+
+    const formattedNotes = notes.map((note) => ({
         id: note._id.toString(),
-        title: note.title,
-        content: note.text,
-        category: note.category ? note.category.toString() : null
+        title: note.title || "Untitled",
+        text: note.text,
+        category: note.category || null,
     }));
 
     response.status(200).json(formattedNotes);
 }
 
+async function saveNoteToDB(owner, text, title, category = null) {
+    const notesCollection = client.db('finalProject').collection('notes');
 
-
-
+    // Insert the note into the database
+    return await notesCollection.insertOne({
+        owner: new mongodb.ObjectId(owner), // Convert owner to ObjectId
+        text,
+        title: title || "Untitled",
+        category,
+        createdAt: new Date(), // Timestamp
+    });
+}
 
 async function addNote(message, response) {
-    const newNote = message.body;
-    const result = await client.db('finalProject').collection('notes').insertOne(newNote);
-    response.json(result);
+    const { owner, text, title, category } = message.body;
+
+    // Validate the required fields
+    if (!owner || !text || !title) {
+        response.status(400).json({ error: 'Missing required fields: owner, title, or text' });
+        return;
+    }
+
+    // Call the reusable function to save the note
+    const result = await saveNoteToDB(owner, text, title, category);
+
+    if (result.acknowledged) {
+        response.status(201).json({ success: true, id: result.insertedId });
+    } else {
+        response.status(500).json({ error: 'Failed to save note' });
+    }
 }
+
+
 
 async function updateNote(message, response) {
     const id = message.params.id;
-    const update = message.body;
+    const { title, text, category } = message.body;
+
+    if (!title && !text && !category) {
+        response.status(400).json({ error: "Nothing to update." });
+        return;
+    }
+
+    const updateFields = {};
+    if (title) updateFields.title = title;
+    if (text) updateFields.text = text;
+    if (category) updateFields.category = category;
 
     const result = await client.db('finalProject').collection('notes').updateOne(
         { _id: new mongodb.ObjectId.createFromHexString(id) },
-        { $set: update }
+        { $set: updateFields }
     );
 
-    response.json(result);
+    if (result.matchedCount > 0) {
+        response.status(200).json({ success: true });
+    } else {
+        response.status(404).json({ error: "Note not found." });
+    }
 }
+
 
 async function deleteNote(message, response) {
-    const id = message.params.id;
+    const id = message.params.id; // Extract the ID from the request parameters
+    const notesCollection = client.db('finalProject').collection('notes'); // Access the notes collection
 
-    const result = await client.db('finalProject').collection('notes').deleteOne({
-        _id: new mongodb.ObjectId.createFromHexString(id),
-    });
+    const result = await notesCollection.deleteOne({ _id: new mongodb.ObjectId(id) }); // Delete the note by ID
 
-    response.json(result);
+    if (result.deletedCount === 1) {
+        response.status(200).json({ success: true, message: 'Note deleted successfully' });
+    } else {
+        response.status(404).json({ success: false, message: 'Note not found' });
+    }
 }
+
 
 main();

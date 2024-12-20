@@ -6,6 +6,9 @@
   <meta name="viewport" content="width=device-width">
   <title>NOTES!</title>
   <link href="./static/global.css" rel="stylesheet" type="text/css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.2.3/purify.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js" defer></script>
+
 </head>
 
 <body>
@@ -15,9 +18,9 @@
         <h1 id="title">NOTES!</h1>
       </a>
 
-      <div id="search_bar" onclick="expandSearchBar()">
+      <div id="search_bar">
         <img src="./static/images/lupa.png" id="magnifying_glass_img" height="25%">
-        <input type="search" contenteditable="true" placeholder="Search"></input>
+        <input type="search" id="search_input" placeholder="Search notes by title or content...">
       </div>
 
       <span class="header_links">
@@ -35,22 +38,21 @@
 
   <main>
 
-    <!-- LOGIN -->
     <div id="login_section">
       <div id="login_div">
-        <h1 id="title">NOTES!</h1>
-        <p>Welcome back!</p>
+        <h1>Welcome Back!</h1>
+        <p>Login to your account</p>
         <form>
-          <label for="login_Username">Username:</label><br>
-          <input type="text" id="login_Username" name="Username" value="guest">
-          <label for="login_Password">Password:</label><br>
-          <input type="password" id="login_Password" name="Password" value="COLPASWOR"><br><br>
-          <button id="login_button" class="button_createnote" type="button">LOGIN</button>
+          <label for="login_Username">Username:</label>
+          <input type="text" id="login_Username" name="Username">
+          <label for="login_Password">Password:</label>
+          <input type="password" id="login_Password" name="Password">
+          <button id="login_button" type="button">LOGIN</button>
         </form>
-        <h4><a onclick="password_clicked()">Forgot password?</a></h4>
-        <h4><a onclick="create_clicked()">I don't have an account (yet) :/</a></h4>
+        <h4><a id="go_to_create_section">I don't have an account</a></h4>
       </div>
     </div>
+    
 
     <!-- FORGOT PASSWORD -->
     <div id="password_section">
@@ -72,19 +74,20 @@
     <!-- CREATE ACCOUNT -->
     <div id="create_section">
       <div id="login_div">
-        <h1 id="title">NOTES!</h1>
-        <p>Hello :)</p>
+        <h1>Get Started!</h1>
+        <p>Create an account to start using Notes!</p>
         <form>
-          <label for="create_Username">What's your name?</label><br>
-          <input type="text" id="create_Username" name="Username" value="guest"><br>
-          <label for="create_Password">Password?</label><br>
-          <input type="password" id="create_Password" name="Password" value="COLPASWOR"><br><br>
-          <button class="button_createnote" onclick="login_clicked()" type="button">LOGIN</button>
+          <label for="create_Username">Username:</label>
+          <input type="text" id="create_Username" name="Username">
+          <label for="create_Password">Password:</label>
+          <input type="password" id="create_Password" name="Password">
+          <button id="create_account_button" type="button">Create Account</button>
         </form>
-        <h4><a onclick="password_clicked()">Forgot password?</a></h4>
-        <h4><a onclick="login_clicked()">WAIT! I have an account (oops :P)</a></h4>
+        <h4><a id="go_to_login">I already have an account</a></h4>
       </div>
     </div>
+    
+
 
     <!-- MAIN PAGE -->
     <div id="mainpage_section">
@@ -104,25 +107,34 @@
     </div>
 
     <div id="createnote_section">
-      <section>
-        <div class="block_createnote">
-          <h1 id="note_title" contenteditable="true">Note title</h1>
+      <section id="add_note_container">
+        <div id="note_editor">
+          <h1 contenteditable="true" id="note_title" placeholder="Enter note title">Untitled</h1>
+          <textarea name="editor" id="editor" placeholder="Start typing your note here..."></textarea>
         </div>
-        <div class="block_createnote">
-          <p id="note_content" contenteditable="true">Note content</p>
+        <div id="note_preview">
+          <h1>Preview</h1>
+          <div class="preview"></div>
         </div>
       </section>
-      <section>
-        <button id="exit_createnote_button" class="button_createnote" type="button">Exit</button>
-        <button id="save_note_button" class="button_createnote" type="button">Save note</button>
+    
+      <section id="note_buttons">
+        <button id="button_exit" class="button_cancel" type="button">Exit</button>
+        <button id="button_save" class="button_save" type="button">Save Note</button>
       </section>
+    </div>
+    
+
+
+
+
     </div>
 
     <div id="profile_section">
       <section class="section_profile">
         <img src="./static/images/ -4.jpg" id="profile">
         <div id="buttons_profile_div">
-          <button class="button_createnote" type="button">Change profile pic</button>
+          <button id class="button_createnote" type="button">Change profile pic</button>
           <button class="button_createnote" type="button">Delete account</button>
         </div>
       </section>
