@@ -65,73 +65,76 @@ async function fetchNotes(searchTerm = "") {
     });
 
     // Render notes grouped by category
-    Object.keys(categories).forEach(category => {
-        const categoryDiv = document.createElement("div");
-        categoryDiv.classList.add("category");
-        categoryDiv.id = `category-${category}`;
+Object.keys(categories).forEach(category => {
+    const categoryRow = document.createElement("div");
+    categoryRow.classList.add("category-row"); // Add a class for styling rows
 
-        const categoryTitle = document.createElement("h3");
-        categoryTitle.textContent = category;
-        categoryDiv.appendChild(categoryTitle);
+    const categoryTitle = document.createElement("span");
+    categoryTitle.classList.add("category-title");
+    categoryTitle.textContent = category;
 
-        categories[category].forEach(note => {
-            const noteElement = document.createElement("div");
-            noteElement.classList.add("note");
+    const notesWrapper = document.createElement("div");
+    notesWrapper.classList.add("notes-wrapper"); // Container for notes within this category
 
-            const titleSpan = document.createElement("div");
-            titleSpan.classList.add("title_note");
-            titleSpan.textContent = note.title;
+    categories[category].forEach(note => {
+        const noteElement = document.createElement("div");
+        noteElement.classList.add("note");
 
-            const contentSpan = document.createElement("div");
-            contentSpan.classList.add("content_note");
-            contentSpan.textContent = note.text;
+        const titleSpan = document.createElement("div");
+        titleSpan.classList.add("title_note");
+        titleSpan.textContent = note.title;
 
-            const footer = document.createElement("div");
-            footer.classList.add("note-footer");
+        const contentSpan = document.createElement("div");
+        contentSpan.classList.add("content_note");
+        contentSpan.textContent = note.text;
 
-            const editButton = document.createElement("button");
-            editButton.textContent = "Edit";
-            editButton.classList.add("edit-button");
-            editButton.addEventListener("click", () => {
-                showEditNoteSection(note); // Pass the note to the edit function
-            });
+        const footer = document.createElement("div");
+        footer.classList.add("note-footer");
 
-            editButton.addEventListener("click", () => {
-                showEditNoteSection(note);
-            });
-
-
-            const deleteButton = document.createElement("button");
-            deleteButton.textContent = "Delete";
-            deleteButton.classList.add("delete-button");
-            deleteButton.addEventListener("click", async () => {
-                const confirmDelete = confirm("Are you sure you want to delete this note?");
-                if (confirmDelete) {
-                    const response = await fetch(`/api/notes/${note.id}`, {
-                        method: "DELETE",
-                    });
-
-                    if (response.ok) {
-                        alert("Note deleted successfully!");
-                        await fetchNotes(searchTerm); // Re-fetch notes with the current search term
-                    } else {
-                        alert("Failed to delete note. Please try again.");
-                    }
-                }
-            });
-
-            footer.appendChild(deleteButton);
-            footer.appendChild(editButton);
-
-            noteElement.appendChild(titleSpan);
-            noteElement.appendChild(contentSpan);
-            noteElement.appendChild(footer);
-
-            categoryDiv.appendChild(noteElement);
+        const editButton = document.createElement("button");
+        editButton.textContent = "Edit";
+        editButton.classList.add("edit-button");
+        editButton.addEventListener("click", () => {
+            showEditNoteSection(note); // Pass the note to the edit function
         });
 
-        notesContainer.appendChild(categoryDiv);
+        const deleteButton = document.createElement("button");
+        deleteButton.textContent = "Delete";
+        deleteButton.classList.add("delete-button");
+        deleteButton.addEventListener("click", async () => {
+            const confirmDelete = confirm("Are you sure you want to delete this note?");
+            if (confirmDelete) {
+                const response = await fetch(`/api/notes/${note.id}`, {
+                    method: "DELETE",
+                });
+
+                if (response.ok) {
+                    alert("Note deleted successfully!");
+                    await fetchNotes(searchTerm); // Re-fetch notes with the current search term
+                } else {
+                    alert("Failed to delete note. Please try again.");
+                }
+            }
+        });
+
+        footer.appendChild(deleteButton);
+        footer.appendChild(editButton);
+
+        noteElement.appendChild(titleSpan);
+        noteElement.appendChild(contentSpan);
+        noteElement.appendChild(footer);
+
+        notesWrapper.appendChild(noteElement); // Add the note to the notes wrapper
     });
+
+    // Add category title and notes wrapper to the row
+    categoryRow.appendChild(categoryTitle);
+    categoryRow.appendChild(notesWrapper);
+
+    // Append the row to the container
+    notesContainer.appendChild(categoryRow);
+});
+
 }
 
 
@@ -337,57 +340,70 @@ function expandSearchBar() {
 }
 function showEditNoteSection(note) {
     const editNoteSection = document.getElementById("editnote_section");
-    const editNoteOverlay = document.getElementById("editnote_overlay");
     const editNoteTitle = document.getElementById("edit_note_title");
     const editNoteContent = document.getElementById("edit_note_content");
-    const saveEditButton = document.getElementById("save_edit_button");
-    const cancelEditButton = document.getElementById("cancel_edit_button");
-
-    // Validate elements
-    if (!editNoteSection || !editNoteOverlay || !editNoteTitle || !editNoteContent || !saveEditButton || !cancelEditButton) {
-        console.error("Edit note section or elements not found!");
-        return;
+    const editNotePreview = document.getElementById("edit_note_preview");
+    const overlay = document.getElementById("editnote_overlay");
+  
+    // Ensure all required elements exist
+    if (!editNoteSection || !editNoteTitle || !editNoteContent || !editNotePreview || !overlay) {
+      console.error("Required elements for edit note are missing.");
+      return;
     }
-
-    // Populate fields
+  
+    // Populate the edit section with the note's current data
     editNoteTitle.textContent = note.title || "Untitled";
     editNoteContent.value = note.text || "";
-
+    editNotePreview.innerHTML = DOMPurify.sanitize(marked.parse(note.text || ""));
+  
     // Display the edit section and overlay
     editNoteSection.style.display = "block";
-    editNoteOverlay.style.display = "block";
-
-    // Event listeners for Save and Cancel
-    saveEditButton.onclick = () => {
-        const updatedTitle = editNoteTitle.textContent.trim();
-        const updatedContent = editNoteContent.value.trim();
-
-        if (!updatedTitle || !updatedContent) {
-            alert("Both title and content are required!");
-            return;
-        }
-
-        fetch(`/api/notes/${note.id}`, {
-            method: "PUT",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ title: updatedTitle, text: updatedContent }),
-        }).then((response) => {
-            if (response.ok) {
-                alert("Note updated successfully!");
-                editNoteSection.style.display = "none";
-                editNoteOverlay.style.display = "none";
-                fetchNotes(); // Refresh notes
-            } else {
-                alert("Failed to update note. Please try again.");
-            }
-        });
-    };
-
-    cancelEditButton.onclick = () => {
+    overlay.style.display = "block";
+  
+    // Live preview update
+    editNoteContent.addEventListener("input", (e) => {
+      editNotePreview.innerHTML = DOMPurify.sanitize(marked.parse(e.target.value));
+    });
+  
+    // Save changes
+    const saveEditButton = document.getElementById("save_edit_button");
+    saveEditButton.onclick = async () => {
+      const updatedTitle = editNoteTitle.textContent.trim();
+      const updatedContent = editNoteContent.value.trim();
+  
+      if (!updatedTitle || !updatedContent) {
+        alert("Both title and content are required!");
+        return;
+      }
+  
+      const response = await fetch(`/api/notes/${note.id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          title: updatedTitle,
+          text: updatedContent,
+        }),
+      });
+  
+      if (response.ok) {
+        alert("Note updated successfully!");
         editNoteSection.style.display = "none";
-        editNoteOverlay.style.display = "none"; // Hide the overlay
+        overlay.style.display = "none";
+        await fetchNotes(); // Refresh notes
+      } else {
+        alert("Failed to update note. Please try again.");
+      }
     };
-}
+  
+    // Cancel edit
+    const cancelEditButton = document.getElementById("cancel_edit_button");
+    cancelEditButton.onclick = () => {
+      editNoteSection.style.display = "none";
+      overlay.style.display = "none";
+    };
+  }
+  
+
 
 document.addEventListener("DOMContentLoaded", () => {
     fetchNotes()

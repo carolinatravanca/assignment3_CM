@@ -342,7 +342,7 @@ section>h1 {
 }
 
 .notes_gallery {
-  display: flex;
+  display: block;
   flex-wrap: wrap;
   padding: 2rem;
   gap: 16px;
@@ -497,14 +497,106 @@ h3 {
   max-width: 500px; /* Limit max width */
 }
 
-/* Overlay for dimming background */
 .popup-overlay {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background: var(--tranparent); 
-  display: none; 
-  z-index: 999; 
+  background: rgba(0, 0, 0, 0.5); /* Slightly dark transparent background */
+  display: none; /* Initially hidden */
+  z-index: 999;
 }
+
+#editnote_section h1 {
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+}
+
+#editnote_section textarea {
+  width: -webkit-fill-available;
+  height: 100px;
+  margin-bottom: 10px;
+  padding: 10px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  resize: none;
+}
+
+#editnote_section .preview {
+  border: 1px solid #ddd;
+  background: #f9f9f9;
+  padding: 10px;
+  margin-bottom: 10px;
+  height: 100px;
+  overflow-y: auto;
+  font-size: 0.9rem;
+}
+
+#editnote_section button {
+  padding: 10px 15px;
+  font-size: 1rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin: 1px;
+}
+
+#save_edit_button {
+  background:var(--blue);
+  color: white;
+  margin-right: 10px;
+}
+
+#cancel_edit_button {
+  background: var(--red);
+  color: white;
+}
+
+.category-row {
+  display: block;
+  align-items: flex-start;
+  margin-bottom: 20px;
+}
+
+.category-title {
+  flex: 0 0 150px; /* Fixed width for category title */
+  font-weight: bold;
+  font-size: 1.2rem;
+  margin-right: 20px;
+}
+
+.notes-wrapper {
+  flex: 1; /* Take up remaining space */
+  display: flex;
+  flex-wrap: wrap; /* Allow notes to wrap to the next line */
+  gap: 10px; /* Space between notes */
+}
+
+.note {
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  width: calc(33.333% - 10px); /* Adjust width for three notes per row */
+  box-sizing: border-box;
+}
+
+.title_note {
+  font-size: 1.1rem;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.content_note {
+  font-size: 0.9rem;
+  margin-bottom: 10px;
+}
+
+.note-footer {
+  display: flex;
+  justify-content: space-between;
+}
+
