@@ -17,6 +17,7 @@ async function main() {
     app.use(express.json())
 
     app.post('/api/login', loginUser);
+    app.post('/api/createUser', createUser)
     app.get('/api/notes', getAllNotes);
     app.post('/api/notes', addNote);
     app.put('/api/notes/:id', updateNote);
@@ -50,6 +51,37 @@ async function loginUser(message, response) {
     }
 }
 
+async function createUser(message, response) {
+    const { username, password } = message.body;
+
+    // Validate input
+    if (!username || !password) {
+        response.status(400).json({ success: false, message: "Username and password are required." });
+        return;
+    }
+
+    const owners =await client.db('finalProject').collection('owner');
+
+    // Check if the username already exists
+    const existingUser = await owners.findOne({ username: username });
+    if (existingUser) {
+        response.status(409).json({ success: false, message: "Username already exists. Please choose another." });
+        return;
+    }
+
+    // Create the user
+    const result = await owners.insertOne({
+        username,
+        password, // In a real application, hash the password using bcrypt
+        createdAt: new Date(),
+    });
+
+    if (result.acknowledged) {
+        response.status(201).json({ success: true, message: "Account created successfully!" });
+    } else {
+        response.status(500).json({ success: false, message: "Failed to create account. Please try again later." });
+    }
+};
 
 //see this again
 async function getAllNotes(message, response) {
@@ -85,12 +117,6 @@ async function getAllNotes(message, response) {
 
     response.status(200).json(formattedNotes);
 }
-
-
-
-
-
-
 
 async function saveNoteToDB(owner, text, title, category = null) {
     const notesCollection = client.db('finalProject').collection('notes');

@@ -4,12 +4,13 @@ const section_mainpage = document.getElementById("mainpage_section");
 const section_createnote = document.getElementById("createnote_section");
 const section_profile = document.getElementById("profile_section");
 const section_editnote = document.getElementById("editnote_section")
+const section_create = document.getElementById("create_section")
 
 
 // Helper Functions
 function showSection(sectionToShow) {
     console.log(`Attempting to show section: ${sectionToShow?.id || "unknown"}`);
-    const sections = [section_login, section_mainpage, section_createnote, section_profile, section_editnote];
+    const sections = [section_login, section_mainpage, section_createnote, section_profile, section_editnote, section_create];
     sections.forEach((section) => {
         if (section) {
             section.style.display = section === sectionToShow ? "block" : "none";
@@ -17,9 +18,19 @@ function showSection(sectionToShow) {
         }
     });
 
+    if (sectionToShow === section_createnote) {
+        const noteTitle = document.querySelector(".block_createnote h1");
+        const editor = document.getElementById("editor");
+        const preview = document.querySelector(".preview")
+        if (noteTitle) noteTitle.textContent = "Untitled"; // Reset title
+        if (editor) editor.value = ""; // Reset content
+        if (preview) preview.value = "";
+    }
+
     const header = document.getElementById("header_id");
     if (header) {
-        header.style.display = sectionToShow !== section_login ? "block" : "none";
+        // Hide the header when showing login or create account sections
+        header.style.display = (sectionToShow === section_login || sectionToShow === create_section) ? "none" : "block";
     }
 }
 
@@ -156,6 +167,23 @@ function setupEventListeners() {
         mainPageButton.addEventListener("click", () => showSection(section_mainpage));
     }
 
+    const goToCreateSectionLink = document.getElementById("go_to_create_section");
+    if (goToCreateSectionLink) {
+        goToCreateSectionLink.addEventListener("click", () => {
+            const section_create = document.getElementById("create_section");
+            showSection(section_create); // Show the create account section
+        });
+    }
+
+    // Navigate to Login Section
+    const goToLoginLink = document.getElementById("go_to_login");
+    if (goToLoginLink) {
+        goToLoginLink.addEventListener("click", () => {
+            const section_login = document.getElementById("login_section");
+            showSection(section_login); // Show the login section
+        });
+    }
+
     // Login Button
     const loginButton = document.getElementById("login_button");
     if (loginButton) {
@@ -226,6 +254,38 @@ function setupEventListeners() {
             }
         });
     }
+    const createAccountButton = document.getElementById("create_account_button");
+    if (createAccountButton) {
+        createAccountButton.addEventListener("click", async () => {
+            const username = document.getElementById("create_Username").value.trim();
+            const password = document.getElementById("create_Password").value.trim();
+
+            if (!username || !password) {
+                alert("Username and password are required.");
+                return;
+            }
+
+            const response = await fetch("/api/createUser", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ username, password }),
+            });
+
+            if (response.ok) {
+                const result = await response.json();
+                if (result.success) {
+                    alert("Account created successfully!");
+                    showSection(section_login); // Redirect to login page
+                } else {
+                    alert(result.message);
+                }
+            } else {
+                alert("Failed to create account. Please try again.");
+            }
+        });
+    }
+
+
 
     const editorElement = document.querySelector("#editor");
     const preview = document.querySelector(".preview");
