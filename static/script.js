@@ -53,57 +53,87 @@ async function fetchNotes(searchTerm = "") {
     }
 
     const notes = await response.json();
-    notes.forEach((note) => {
-        const noteElement = document.createElement("div");
-        noteElement.classList.add("note");
 
-        const titleSpan = document.createElement("div");
-        titleSpan.classList.add("title_note");
-        titleSpan.textContent = note.title;
+    // Group notes by category
+    const categories = {};
+    notes.forEach(note => {
+        const category = note.category || "All notes"; // Default category is "General"
+        if (!categories[category]) {
+            categories[category] = [];
+        }
+        categories[category].push(note);
+    });
 
-        const contentSpan = document.createElement("div");
-        contentSpan.classList.add("content_note");
-        contentSpan.textContent = note.text;
+    // Render notes grouped by category
+    Object.keys(categories).forEach(category => {
+        const categoryDiv = document.createElement("div");
+        categoryDiv.classList.add("category");
+        categoryDiv.id = `category-${category}`;
 
-        const footer = document.createElement("div");
-        footer.classList.add("note-footer");
+        const categoryTitle = document.createElement("h3");
+        categoryTitle.textContent = category;
+        categoryDiv.appendChild(categoryTitle);
 
-        const editButton = document.createElement("button");
-        editButton.textContent = "Edit";
-        editButton.classList.add("edit-button");
-        editButton.addEventListener("click", () => {
-            showEditNoteSection(note);
-        });
+        categories[category].forEach(note => {
+            const noteElement = document.createElement("div");
+            noteElement.classList.add("note");
 
-        const deleteButton = document.createElement("button");
-        deleteButton.textContent = "Delete";
-        deleteButton.classList.add("delete-button");
-        deleteButton.addEventListener("click", async () => {
-            const confirmDelete = confirm("Are you sure you want to delete this note?");
-            if (confirmDelete) {
-                const response = await fetch(`/api/notes/${note.id}`, {
-                    method: "DELETE",
-                });
+            const titleSpan = document.createElement("div");
+            titleSpan.classList.add("title_note");
+            titleSpan.textContent = note.title;
 
-                if (response.ok) {
-                    alert("Note deleted successfully!");
-                    await fetchNotes(searchTerm); // Re-fetch notes with the current search term
-                } else {
-                    alert("Failed to delete note. Please try again.");
+            const contentSpan = document.createElement("div");
+            contentSpan.classList.add("content_note");
+            contentSpan.textContent = note.text;
+
+            const footer = document.createElement("div");
+            footer.classList.add("note-footer");
+
+            const editButton = document.createElement("button");
+            editButton.textContent = "Edit";
+            editButton.classList.add("edit-button");
+            editButton.addEventListener("click", () => {
+                showEditNoteSection(note); // Pass the note to the edit function
+            });
+
+            editButton.addEventListener("click", () => {
+                showEditNoteSection(note);
+            });
+
+
+            const deleteButton = document.createElement("button");
+            deleteButton.textContent = "Delete";
+            deleteButton.classList.add("delete-button");
+            deleteButton.addEventListener("click", async () => {
+                const confirmDelete = confirm("Are you sure you want to delete this note?");
+                if (confirmDelete) {
+                    const response = await fetch(`/api/notes/${note.id}`, {
+                        method: "DELETE",
+                    });
+
+                    if (response.ok) {
+                        alert("Note deleted successfully!");
+                        await fetchNotes(searchTerm); // Re-fetch notes with the current search term
+                    } else {
+                        alert("Failed to delete note. Please try again.");
+                    }
                 }
-            }
+            });
+
+            footer.appendChild(deleteButton);
+            footer.appendChild(editButton);
+
+            noteElement.appendChild(titleSpan);
+            noteElement.appendChild(contentSpan);
+            noteElement.appendChild(footer);
+
+            categoryDiv.appendChild(noteElement);
         });
 
-        footer.appendChild(deleteButton);
-        footer.appendChild(editButton);
-
-        noteElement.appendChild(titleSpan);
-        noteElement.appendChild(contentSpan);
-        noteElement.appendChild(footer);
-
-        notesContainer.appendChild(noteElement);
+        notesContainer.appendChild(categoryDiv);
     });
 }
+
 
 
 
@@ -285,8 +315,6 @@ function setupEventListeners() {
         });
     }
 
-
-
     const editorElement = document.querySelector("#editor");
     const preview = document.querySelector(".preview");
     if (editorElement && preview) {
@@ -309,21 +337,28 @@ function expandSearchBar() {
 }
 function showEditNoteSection(note) {
     const editNoteSection = document.getElementById("editnote_section");
+    const editNoteOverlay = document.getElementById("editnote_overlay");
     const editNoteTitle = document.getElementById("edit_note_title");
     const editNoteContent = document.getElementById("edit_note_content");
+    const saveEditButton = document.getElementById("save_edit_button");
+    const cancelEditButton = document.getElementById("cancel_edit_button");
 
-    if (!editNoteSection || !editNoteTitle || !editNoteContent) {
+    // Validate elements
+    if (!editNoteSection || !editNoteOverlay || !editNoteTitle || !editNoteContent || !saveEditButton || !cancelEditButton) {
         console.error("Edit note section or elements not found!");
         return;
     }
 
+    // Populate fields
     editNoteTitle.textContent = note.title || "Untitled";
     editNoteContent.value = note.text || "";
 
+    // Display the edit section and overlay
     editNoteSection.style.display = "block";
+    editNoteOverlay.style.display = "block";
 
-    const saveEditButton = document.getElementById("save_edit_button");
-    saveEditButton.onclick = async () => {
+    // Event listeners for Save and Cancel
+    saveEditButton.onclick = () => {
         const updatedTitle = editNoteTitle.textContent.trim();
         const updatedContent = editNoteContent.value.trim();
 
@@ -332,34 +367,29 @@ function showEditNoteSection(note) {
             return;
         }
 
-        const response = await fetch(`/api/notes/${note.id}`, {
+        fetch(`/api/notes/${note.id}`, {
             method: "PUT",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-                title: updatedTitle,
-                text: updatedContent,
-            }),
+            body: JSON.stringify({ title: updatedTitle, text: updatedContent }),
+        }).then((response) => {
+            if (response.ok) {
+                alert("Note updated successfully!");
+                editNoteSection.style.display = "none";
+                editNoteOverlay.style.display = "none";
+                fetchNotes(); // Refresh notes
+            } else {
+                alert("Failed to update note. Please try again.");
+            }
         });
-
-        if (response.ok) {
-            alert("Note updated successfully!");
-            editNoteSection.style.display = "none";
-            await fetchNotes();
-        } else {
-            alert("Failed to update note. Please try again.");
-        }
     };
 
-    const cancelEditButton = document.getElementById("cancel_edit_button");
     cancelEditButton.onclick = () => {
         editNoteSection.style.display = "none";
+        editNoteOverlay.style.display = "none"; // Hide the overlay
     };
 }
-
-
 
 document.addEventListener("DOMContentLoaded", () => {
     fetchNotes()
     setupEventListeners()
 });
-

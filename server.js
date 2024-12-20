@@ -151,32 +151,29 @@ async function addNote(message, response) {
 }
 
 
-
 async function updateNote(message, response) {
-    const id = message.params.id;
-    const { title, text, category } = message.body;
+    const id = message.params.id; // Extract the note ID
+    const update = message.body; // Extract the updated note data
 
-    if (!title && !text && !category) {
-        response.status(400).json({ error: "Nothing to update." });
+    if (!id || !update) {
+        response.status(400).json({ error: "Invalid ID or update data" });
         return;
     }
 
-    const updateFields = {};
-    if (title) updateFields.title = title;
-    if (text) updateFields.text = text;
-    if (category) updateFields.category = category;
-
-    const result = await client.db('finalProject').collection('notes').updateOne(
-        { _id: new mongodb.ObjectId.createFromHexString(id) },
-        { $set: updateFields }
+    const notes = client.db("finalProject").collection("notes");
+    const result = await notes.updateOne(
+        { _id: new mongodb.ObjectId(id) },
+        { $set: update }
     );
 
     if (result.matchedCount > 0) {
-        response.status(200).json({ success: true });
+        response.json({ success: true, message: "Note updated successfully" });
     } else {
-        response.status(404).json({ error: "Note not found." });
+        response.status(404).json({ success: false, message: "Note not found" });
     }
 }
+
+
 
 
 async function deleteNote(message, response) {

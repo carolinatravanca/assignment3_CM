@@ -52,7 +52,7 @@
         <h4><a id="go_to_create_section">I don't have an account</a></h4>
       </div>
     </div>
-    
+
 
     <!-- FORGOT PASSWORD -->
     <div id="password_section">
@@ -86,7 +86,7 @@
         <h4><a id="go_to_login">I already have an account</a></h4>
       </div>
     </div>
-    
+
 
 
     <!-- MAIN PAGE -->
@@ -117,16 +117,19 @@
           <div class="preview"></div>
         </div>
       </section>
-    
+
       <section id="note_buttons">
         <button id="button_exit" class="button_cancel" type="button">Exit</button>
         <button id="button_save" class="button_save" type="button">Save Note</button>
       </section>
     </div>
-    
-
-
-
+    <div id="editnote_overlay" class="popup-overlay"></div>
+    <div id="editnote_section">
+      <h1 id="edit_note_title" contenteditable="true">Edit Title</h1>
+      <textarea id="edit_note_content" placeholder="Edit your note..."></textarea>
+      <button id="save_edit_button">Save Changes</button>
+      <button id="cancel_edit_button">Cancel</button>
+    </div>
 
     </div>
 
