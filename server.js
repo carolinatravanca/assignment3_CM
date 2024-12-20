@@ -1,8 +1,8 @@
 const express = require('express');
 const mongodb = require('mongodb');
 const path = require('path');
+const { app, BrowserWindow } = require('electron');
 
-const app = express();
 const client = new mongodb.MongoClient('mongodb://localhost:27017');
 
 async function main() {
@@ -60,7 +60,7 @@ async function createUser(message, response) {
         return;
     }
 
-    const owners =await client.db('finalProject').collection('owner');
+    const owners = await client.db('finalProject').collection('owner');
 
     // Check if the username already exists
     const existingUser = await owners.findOne({ username: username });
@@ -194,3 +194,34 @@ async function deleteNote(message, response) {
 
 
 main();
+
+//electron 
+
+
+app.on('ready', () => {
+    mainWindow = new BrowserWindow({
+        width: 800,
+        height: 600,
+        webPreferences: {
+            nodeIntegration: true,
+            contextIsolation: false,
+        },
+    });
+
+
+    mainWindow.loadFile('index.html');
+
+
+});
+
+app.on('window-all-closed', () => {
+    if (process.platform !== 'darwin') {
+        app.quit();
+    }
+});
+
+app.on('activate', () => {
+    if (BrowserWindow.getAllWindows().length === 0) {
+        createWindow();
+    }
+});

@@ -25,7 +25,8 @@ body {
   margin-bottom: 24px;
 }
 
-#login_div, #create_section #login_div {
+#login_div,
+#create_section #login_div {
   background-color: var(--offwhite);
   border-radius: 16px;
   box-shadow: 0 4px 8px var(--black);
@@ -184,7 +185,7 @@ a {
 #mainpage_section,
 #header_id,
 #password_section,
-#create_section{
+#create_section {
   display: none;
 }
 
@@ -257,7 +258,7 @@ section>h1 {
   display: flex;
   justify-content: space-between;
   margin-top: auto;
-  opacity: 0; 
+  opacity: 0;
   transition: opacity 0.3s ease;
 }
 
@@ -382,6 +383,7 @@ section>h1 {
   overflow-y: auto;
   height: 100%;
 }
+
 @media (max-width: 768px) {
   #add_note_container {
     flex-direction: column;
@@ -449,7 +451,7 @@ h3 {
 
 
 #editnote_section {
-  position: fixed; 
+  position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
@@ -510,7 +512,7 @@ h3 {
 }
 
 #save_edit_button {
-  background:var(--blue);
+  background: var(--blue);
   color: white;
   margin-right: 10px;
 }
@@ -536,7 +538,7 @@ h3 {
 .notes-wrapper {
   flex: 1;
   display: flex;
-  flex-wrap: wrap; 
+  flex-wrap: wrap;
   gap: 10px;
 }
 
@@ -546,7 +548,7 @@ h3 {
   border-radius: 4px;
   padding: 10px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  width: calc(33.333% - 10px); 
+  width: calc(33.333% - 10px);
   box-sizing: border-box;
 }
 
@@ -568,8 +570,9 @@ h3 {
 
 #display-image {
   width: 2rem;
-    height: auto;
+  height: auto;
 }
+
 .file-input-container {
   position: relative;
 }
@@ -598,6 +601,7 @@ h3 {
 #image-input {
   display: none;
 }
+
 #profile_section {
   flex-direction: column;
   gap: 2rem;
@@ -697,7 +701,7 @@ h3 {
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   }
 
-  #title{
+  #title {
     font-size: 14pt;
   }
 
@@ -714,8 +718,8 @@ h3 {
     flex-grow: 1;
   }
 
-  .block_createnote:nth-child(2){
+  .block_createnote:nth-child(2) {
     padding-bottom: 140%;
-   }
+  }
 
 }

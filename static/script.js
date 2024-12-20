@@ -60,14 +60,14 @@ async function fetchNotes(searchTerm = "") {
 
     Object.keys(categories).forEach(category => {
         const categoryRow = document.createElement("div");
-        categoryRow.classList.add("category-row"); 
+        categoryRow.classList.add("category-row");
 
         const categoryTitle = document.createElement("span");
         categoryTitle.classList.add("category-title");
         categoryTitle.textContent = category;
 
         const notesWrapper = document.createElement("div");
-        notesWrapper.classList.add("notes-wrapper"); 
+        notesWrapper.classList.add("notes-wrapper");
 
         categories[category].forEach(note => {
             const noteElement = document.createElement("div");
@@ -172,7 +172,7 @@ function setupEventListeners() {
     const searchInput = document.getElementById("search_input");
     if (searchInput) {
         searchInput.addEventListener("input", (e) => {
-            fetchNotes(e.target.value); 
+            fetchNotes(e.target.value);
         });
     }
 
@@ -185,7 +185,7 @@ function setupEventListeners() {
     if (goToCreateSectionLink) {
         goToCreateSectionLink.addEventListener("click", () => {
             const section_create = document.getElementById("create_section");
-            showSection(section_create); 
+            showSection(section_create);
         });
     }
 
@@ -210,14 +210,14 @@ function setupEventListeners() {
     const saveEditButton = document.getElementById("save_edit_button");
     if (saveEditButton) {
         saveEditButton.addEventListener("click", () => {
-            showSection(section_mainpage); 
+            showSection(section_mainpage);
         });
     }
 
     const cancelEditButton = document.getElementById("button_exit");
     if (cancelEditButton) {
         cancelEditButton.addEventListener("click", () => {
-            showSection(section_mainpage); 
+            showSection(section_mainpage);
         });
     }
 
@@ -384,7 +384,7 @@ if (savedImage) {
 
 
 imageInput.addEventListener('change', (event) => {
-    const file = event.target.files[0]; 
+    const file = event.target.files[0];
 
     if (file) {
         const reader = new FileReader();
@@ -399,7 +399,7 @@ imageInput.addEventListener('change', (event) => {
             localStorage.setItem('selectedImage', dataUrl);
         };
 
-        reader.readAsDataURL(file); 
+        reader.readAsDataURL(file);
     }
 });
 
@@ -412,20 +412,20 @@ document.addEventListener("DOMContentLoaded", () => {
 function toggleMenu() {
     const links = document.getElementById("header_links");
     links.classList.toggle("active");
-  
+
     if (links.classList.contains("active")) {
-      document.addEventListener("click", handleOutsideClick);
+        document.addEventListener("click", handleOutsideClick);
     } else {
-      document.removeEventListener("click", handleOutsideClick);
+        document.removeEventListener("click", handleOutsideClick);
     }
-  }
-  
-  function handleOutsideClick(event) {
+}
+
+function handleOutsideClick(event) {
     const links = document.getElementById("header_links");
     const hamburgerMenu = document.getElementById("hamburger_menu");
-  
+
     if (!links.contains(event.target) && !hamburgerMenu.contains(event.target)) {
-      links.classList.remove("active");
-      document.removeEventListener("click", handleOutsideClick);
+        links.classList.remove("active");
+        document.removeEventListener("click", handleOutsideClick);
     }
-  }
+}
