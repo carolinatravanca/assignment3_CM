@@ -4,7 +4,7 @@ Notes is a responsive single page web application that saves texts from the user
 
 ## Index
 
-1. [Dependencies] (#Depedencies) 
+1. [Dependencies](#Depedencies) 
 2. [Database Constitution](#Database) 
 3. [Folder Structure](#Folder) 
 4. [Before getting in the website](#Before-entering-website) 
