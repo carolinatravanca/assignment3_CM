@@ -54,24 +54,38 @@ async function loginUser(message, response) {
 //see this again
 async function getAllNotes(message, response) {
     const ownerId = message.query.owner;
+    const searchTerm = message.query.search || ""; // Get the search term from query parameters
 
     if (!ownerId) {
-        response.status(400).json({ error: 'Owner ID is required.' });
+        response.status(400).json({ error: "Owner ID is required." });
         return;
     }
 
-    const notesCollection = client.db('finalProject').collection('notes');
-    const notes = await notesCollection.find({ owner: new mongodb.ObjectId(ownerId) }).toArray();
+    const notesCollection = client.db("finalProject").collection("notes");
 
-    const formattedNotes = notes.map(note => ({
+    const query = {
+        owner: new mongodb.ObjectId(ownerId),
+    };
+
+    if (searchTerm) {
+        query.$or = [
+            { title: { $regex: searchTerm, $options: "i" } }, // Case-insensitive match in title
+            { text: { $regex: searchTerm, $options: "i" } },  // Case-insensitive match in text
+        ];
+    }
+
+    const notes = await notesCollection.find(query).toArray();
+
+    const formattedNotes = notes.map((note) => ({
         id: note._id.toString(),
-        title: note.title || 'Untitled',
+        title: note.title || "Untitled",
         text: note.text,
         category: note.category || null,
     }));
 
     response.status(200).json(formattedNotes);
 }
+
 
 
 

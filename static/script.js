@@ -23,7 +23,7 @@ function showSection(sectionToShow) {
     }
 }
 
-async function loadNotes() {
+async function fetchNotes(searchTerm = "") {
     const notesContainer = document.getElementById("notes_container");
     notesContainer.innerHTML = ""; // Clear notes container
 
@@ -33,7 +33,7 @@ async function loadNotes() {
         return;
     }
 
-    const response = await fetch(`/api/notes?owner=${ownerId}`); // Fetch notes for the owner
+    const response = await fetch(`/api/notes?owner=${ownerId}&search=${encodeURIComponent(searchTerm)}`);
 
     if (!response.ok) {
         console.error("Failed to fetch notes, status:", response.status);
@@ -76,7 +76,7 @@ async function loadNotes() {
 
                 if (response.ok) {
                     alert("Note deleted successfully!");
-                    await loadNotes();
+                    await fetchNotes(searchTerm); // Re-fetch notes with the current search term
                 } else {
                     alert("Failed to delete note. Please try again.");
                 }
@@ -93,6 +93,7 @@ async function loadNotes() {
         notesContainer.appendChild(noteElement);
     });
 }
+
 
 
 
@@ -122,7 +123,7 @@ async function submitLogin() {
         localStorage.setItem("loggedInUserId", result.user.id); // Save owner ID
         showSection(section_mainpage);
         document.body.style.background = "rgba(242, 242, 242, 1)";
-        await loadNotes();
+        await fetchNotes();
     } else {
         alert("Login failed: " + result.message);
     }
@@ -140,6 +141,13 @@ function setupEventListeners() {
     const profileButton = document.getElementById("profile_button");
     if (profileButton) {
         profileButton.addEventListener("click", () => showSection(section_profile));
+    }
+
+    const searchInput = document.getElementById("search_input");
+    if (searchInput) {
+        searchInput.addEventListener("input", (e) => {
+            fetchNotes(e.target.value); // Pass the search term dynamically
+        });
     }
 
     // Main Page Button
@@ -212,7 +220,7 @@ function setupEventListeners() {
             if (response.ok) {
                 alert("Note saved successfully!");
                 showSection(section_mainpage);
-                await loadNotes();
+                await fetchNotes();
             } else {
                 alert("Failed to save note. Please try again.");
             }
@@ -276,7 +284,7 @@ function showEditNoteSection(note) {
         if (response.ok) {
             alert("Note updated successfully!");
             editNoteSection.style.display = "none";
-            await loadNotes();
+            await fetchNotes();
         } else {
             alert("Failed to update note. Please try again.");
         }
@@ -290,10 +298,8 @@ function showEditNoteSection(note) {
 
 
 
-
-
 document.addEventListener("DOMContentLoaded", () => {
-    loadNotes()
+    fetchNotes()
     setupEventListeners()
 });
 
