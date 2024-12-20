@@ -30,6 +30,29 @@ async function main() {
     app.listen(5500, () => console.log('Server running on port'));
 }
 
+const demo_user = [
+    {
+        username: "demo",
+        password: "demo",
+        createdAt: new Date()
+    }
+];
+
+const demo_note = [
+    {
+        owner: "demo",
+        text: "my first note",
+        title: "Untitled",
+        category: "category",
+        createdAt: new Date()
+    }
+]
+
+const notes_c = client.db('finalProject').collection('notes');
+const users_c = client.db('finalProject').collection('owner');
+await users_c.insertMany(demo_user);
+await notes_c.insertMany(demo_note);
+
 async function loginUser(message, response) {
     const { username, password } = message.body;
     const owners = client.db('finalProject').collection('owner');
@@ -60,7 +83,7 @@ async function createUser(message, response) {
         return;
     }
 
-    const owners =await client.db('finalProject').collection('owner');
+    const owners = await client.db('finalProject').collection('owner');
 
     // Check if the username already exists
     const existingUser = await owners.findOne({ username: username });
@@ -72,7 +95,7 @@ async function createUser(message, response) {
     // Create the user
     const result = await owners.insertOne({
         username,
-        password, // In a real application, hash the password using bcrypt
+        password,
         createdAt: new Date(),
     });
 
