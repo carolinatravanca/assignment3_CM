@@ -12,25 +12,30 @@
 </head>
 
 <body>
+
   <header id="header_id">
     <nav>
       <a id="logo_img">
         <h1 id="title">NOTES!</h1>
       </a>
-
+  
       <div id="search_bar">
         <img src="./static/images/lupa.png" id="magnifying_glass_img" height="25%">
         <input type="search" id="search_input" placeholder="Search notes by title or content...">
       </div>
+  
 
-      <span class="header_links">
+      <button id="hamburger_menu" onclick="toggleMenu()">☰</button>
+  
+
+      <span id="header_links">
         <div class="button_header">
-          <a id="add_note_button" data-link>Add Note</a>
+          <a id="add_note_button">Add Note</a>
           <img src="./static/images/nota.png" id="addnote_img">
         </div>
         <div class="button_header">
-          <a id="profile_button" data-link>Profile</a>
-          <img src="./static/images/ -4.jpg" id="display-image">
+          <a id="profile_button" >Profile</a>
+          <img src="./static/images/person.png" id="profile_img">
         </div>
       </span>
     </nav>
