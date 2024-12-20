@@ -114,24 +114,43 @@ async function addNote(message, response) {
 
 async function updateNote(message, response) {
     const id = message.params.id;
-    const update = message.body;
+    const { title, text, category } = message.body;
+
+    if (!title && !text && !category) {
+        response.status(400).json({ error: "Nothing to update." });
+        return;
+    }
+
+    const updateFields = {};
+    if (title) updateFields.title = title;
+    if (text) updateFields.text = text;
+    if (category) updateFields.category = category;
 
     const result = await client.db('finalProject').collection('notes').updateOne(
         { _id: new mongodb.ObjectId.createFromHexString(id) },
-        { $set: update }
+        { $set: updateFields }
     );
 
-    response.json(result);
+    if (result.matchedCount > 0) {
+        response.status(200).json({ success: true });
+    } else {
+        response.status(404).json({ error: "Note not found." });
+    }
 }
+
 
 async function deleteNote(message, response) {
-    const id = message.params.id;
+    const id = message.params.id; // Extract the ID from the request parameters
+    const notesCollection = client.db('finalProject').collection('notes'); // Access the notes collection
 
-    const result = await client.db('finalProject').collection('notes').deleteOne({
-        _id: new mongodb.ObjectId.createFromHexString(id),
-    });
+    const result = await notesCollection.deleteOne({ _id: new mongodb.ObjectId(id) }); // Delete the note by ID
 
-    response.json(result);
+    if (result.deletedCount === 1) {
+        response.status(200).json({ success: true, message: 'Note deleted successfully' });
+    } else {
+        response.status(404).json({ success: false, message: 'Note not found' });
+    }
 }
+
 
 main();

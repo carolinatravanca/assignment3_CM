@@ -92,31 +92,32 @@ a {
   color: rgba(231, 231, 231, 1);
 }
 
-#createnote_section {
+#createnote_section,
+#profile_section,
+#mainpage_section,
+#header_id,
+#password_section,
+#create_section{
   display: none;
 }
 
-#profile_section {
-  display: none;
-}
-
-#mainpage_section {
-  display: none;
-}
-
-#header_id {
-  display: none;
+#editnote_section {
+  display: none; /* Initially hidden */
+  visibility: visible;
+  position: relative;
+  z-index: 10;
+  background-color: #ffffff;
+  padding: 1rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 600px;
+  margin: 2rem auto;
 }
 
 #login_section {
-  display: block;
+  display: flex;
 }
-
-#password_section,
-#create_section {
-  display: none;
-}
-
 
 #filter_div {
   font-family: 'Courier New', Courier, monospace;
@@ -145,6 +146,7 @@ section>h1 {
 }
 
 .note {
+  position: relative;
   background-color: #ffffff;
   border: 1px solid #ddd;
   border-radius: 8px;
@@ -156,7 +158,53 @@ section>h1 {
   flex-direction: column;
   gap: 8px;
   word-wrap: break-word;
+  transition: all 0.3s ease;
 }
+
+.note-footer {
+  display: flex;
+  justify-content: space-between;
+  margin-top: auto;
+  opacity: 0; /* Hide buttons by default */
+  transition: opacity 0.3s ease;
+}
+
+.note:hover .note-footer {
+  opacity: 1; /* Show buttons on hover */
+}
+
+.note-footer button {
+  width: 50%; /* Each button takes half the footer's width */
+  padding: 10px 0;
+  border: none;
+  border-radius: 4px; /* No rounded corners by default */
+  font-family: anonymous;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.note-footer .edit-button {
+  background-color: steelblue;
+  color: white;
+  border-top-right-radius: 8px; /* Rounded corner for the right button */
+}
+
+.note-footer .edit-button:hover {
+  background-color: darkblue;
+}
+
+.note-footer .delete-button {
+  background-color: crimson;
+  color: white;
+  border-top-left-radius: 8px; /* Rounded corner for the left button */
+}
+
+.note-footer .delete-button:hover {
+  background-color: darkred;
+}
+
+
 
 .title_note {
   font-size: 1.5em;
@@ -208,6 +256,8 @@ section>h1 {
     padding: 1rem;
     height: 26rem;
 }
+.block_createnote 
+{margin-bottom: 1rem;}
 
 
 button {

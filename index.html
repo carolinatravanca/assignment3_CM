@@ -45,9 +45,9 @@
         <p>Welcome back!</p>
         <form>
           <label for="login_Username">Username:</label><br>
-          <input type="text" id="login_Username" name="Username" value="guest">
+          <input type="text" id="login_Username" name="Username">
           <label for="login_Password">Password:</label><br>
-          <input type="password" id="login_Password" name="Password" value="COLPASWOR"><br><br>
+          <input type="password" id="login_Password" name="Password"><br><br>
           <button id="login_button" class="button_createnote" type="button">LOGIN</button>
         </form>
         <h4><a onclick="password_clicked()">Forgot password?</a></h4>
@@ -120,6 +120,24 @@
         <button id="button_exit" class="button_createnote" type="button">Exit</button>
         <button class="button_save" type="button">Save note</button>
     </section>
+
+    <div id="editnote_section">
+      <section>
+          <div class="block_createnote">
+              <h1 id="edit_note_title" contenteditable="true">Edit Note Title</h1>
+          </div>
+          <div class="block_createnote">
+              <textarea id="edit_note_content" cols="30" rows="10">Edit Note Content</textarea>
+          </div>
+      </section>
+      <section>
+          <button id="cancel_edit_button" class="button_createnote" type="button">Cancel</button>
+          <button id="save_edit_button" class="button_createnote" type="button">Save Changes</button>
+      </section>
+    </div>
+    
+  
+  
     
     </div>
 
